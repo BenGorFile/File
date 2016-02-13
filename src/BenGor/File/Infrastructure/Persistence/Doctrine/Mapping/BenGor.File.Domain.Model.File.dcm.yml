@@ -1,0 +1,26 @@
+# This file is part of the BenGorFile library.
+#
+# (c) Beñat Espiña <benatespina@gmail.com>
+# (c) Gorka Laucirica <gorka.lauzirika@gmail.com>
+#
+# For the full copyright and license information, please view the LICENSE
+# file that was distributed with this source code.
+
+BenGor\File\Domain\Model\File:
+    type: entity
+    repositoryClass: BenGor\File\Infrastructure\Persistence\Doctrine\DoctrineFileRepository
+    table: file
+    embedded:
+        id:
+            class: BenGor\File\Domain\Model\FileId
+            columnPrefix: false
+    fields:
+        createdOn:
+            column: created_on
+            type: datetime
+        name:
+            type: string
+            lenght: 255
+        updatedOn:
+            column: updated_on
+            type: datetime
