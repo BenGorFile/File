@@ -12,7 +12,7 @@
 
 namespace BenGor\File\Application\Service;
 
-use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Model\FileException;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -20,12 +20,11 @@ use BenGor\File\Domain\Model\UploadedFileException;
 use Ddd\Application\Service\ApplicationService;
 
 /**
- * Upload file service class.
+ * Remove file service class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
- * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-final class UploadFileService implements ApplicationService
+final class RemoveFileService implements ApplicationService
 {
     /**
      * The filesystem.
@@ -56,20 +55,21 @@ final class UploadFileService implements ApplicationService
     /**
      * {@inheritdoc}
      *
-     * @param UploadFileRequest $request The upload file request
+     * @param RemoveFileRequest $request The remove file request
      */
     public function execute($request = null)
     {
-        $uploadedFile = $request->uploadedFile();
-        $name = new FileName($request->name(), $uploadedFile->extension());
+        $name = new FileName($request->name());
 
-        if (true === $this->filesystem->has($name)) {
-            throw UploadedFileException::alreadyExists($name);
+        if (false === $this->filesystem->has($name)) {
+            throw UploadedFileException::doesNotExist($name);
+        }
+        $file = $this->repository->fileOfName($name);
+        if (null === $file) {
+            throw FileException::doesNotExist($name);
         }
 
-        $this->filesystem->write($name, $uploadedFile->content());
-        $file = new File($this->repository->nextIdentity(), $name);
-
-        $this->repository->persist($file);
+        $this->filesystem->delete($name);
+        $this->repository->remove($file);
     }
 }

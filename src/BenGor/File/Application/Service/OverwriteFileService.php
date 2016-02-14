@@ -55,7 +55,7 @@ final class OverwriteFileService implements ApplicationService
     /**
      * {@inheritdoc}
      *
-     * @var OverwriteFileRequest The override file request
+     * @param OverwriteFileRequest $request The override file request
      */
     public function execute($request = null)
     {
