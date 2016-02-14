@@ -39,7 +39,8 @@
     },
     "suggest": {
         "doctrine/orm": "Required to persist file references using Doctrine repository",
-        "knplabs/gaufrette": "Required to manage files using Gaufrette filesystem adapter",
+        "knplabs/gaufrette": "Required to manage files using Gaufrette filesystem implementation",
+        "symfony/filesystem": "Required to use Symfony filesystem implementation",
         "symfony/http-foundation": "Required to use Symfony implementation of UploadedFile"
     },
     "autoload": {

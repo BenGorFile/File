@@ -15,12 +15,11 @@ namespace BenGor\File\Application\Service;
 use BenGor\File\Domain\Model\UploadedFile;
 
 /**
- * Upload file request class.
+ * Overwrite file request class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
- * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-final class UploadFileRequest
+final class OverwriteFileRequest
 {
     /**
      * The file name.
@@ -42,7 +41,7 @@ final class UploadFileRequest
      * @param UploadedFile $anUploadedFile The uploaded file
      * @param string       $aName          The file name
      */
-    public function __construct(UploadedFile $anUploadedFile, $aName = null)
+    public function __construct(UploadedFile $anUploadedFile, $aName)
     {
         $this->name = $aName;
         $this->uploadedFile = $anUploadedFile;

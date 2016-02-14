@@ -14,6 +14,7 @@ namespace BenGor\File\Infrastructure\Persistence\Doctrine;
 
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileId;
+use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 
 /**
@@ -35,9 +36,9 @@ final class DoctrineFileRepository extends EntityRepository implements FileRepos
     /**
      * {@inheritdoc}
      */
-    public function fileOfName($aName)
+    public function fileOfName(FileName $aName)
     {
-        return $this->findOneBy(['name' => $aName]);
+        return $this->findOneBy(['name.name' => $aName]);
     }
 
     /**

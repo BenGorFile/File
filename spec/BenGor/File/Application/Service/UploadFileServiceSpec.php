@@ -14,8 +14,10 @@ namespace spec\BenGor\File\Application\Service;
 
 use BenGor\File\Application\Service\UploadFileRequest;
 use BenGor\File\Application\Service\UploadFileService;
+use BenGor\File\Domain\Exception\UploadedFileAlreadyExistsException;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileId;
+use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
 use BenGor\File\Infrastructure\UploadedFile\Test\DummyUploadedFile;
@@ -48,12 +50,25 @@ class UploadFileServiceSpec extends ObjectBehavior
 
     function it_executes(Filesystem $filesystem, FileRepository $repository)
     {
-        $request = new UploadFileRequest('dummy-file', new DummyUploadedFile('test-content', 'pdf'));
+        $request = new UploadFileRequest(new DummyUploadedFile('test-content', 'pdf'), 'dummy-file-name');
+        $name = new FileName('dummy-file-name', 'pdf');
 
-        $filesystem->write('dummy-file', 'test-content');
+        $filesystem->has($name)->shouldBeCalled()->willReturn(false);
+
+        $filesystem->write($name, 'test-content')->shouldBeCalled();
         $repository->nextIdentity()->shouldBeCalled()->willReturn(new FileId('dummy-id'));
         $repository->persist(Argument::type(File::class))->shouldBeCalled();
 
         $this->execute($request);
+    }
+
+    function it_does_not_execute_because_already_exists_an_uploaded_file(Filesystem $filesystem)
+    {
+        $request = new UploadFileRequest(new DummyUploadedFile('test-content', 'pdf'), 'dummy-file-name');
+        $name = new FileName('dummy-file-name', 'pdf');
+
+        $filesystem->has($name)->shouldBeCalled()->willReturn(true);
+
+        $this->shouldThrow(UploadedFileAlreadyExistsException::class)->duringExecute($request);
     }
 }

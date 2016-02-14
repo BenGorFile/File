@@ -10,35 +10,44 @@
  * file that was distributed with this source code.
  */
 
-namespace BenGor\File\Infrastructure\FileSystem\Gaufrette;
+namespace BenGor\File\Infrastructure\FileSystem\Symfony;
 
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\Filesystem;
-use Gaufrette\Filesystem as Gaufrette;
+use Symfony\Component\Filesystem\Filesystem as Symfony;
 
 /**
- * Gaufrette filesystem implementation of file domain class.
+ * Symfony filesystem implementation of file domain class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-class GaufretteFilesystem implements Filesystem
+class SymfonyFilesystem implements Filesystem
 {
     /**
-     * The Gaufrette filesystem.
+     * The Symfony filesystem.
      *
-     * @var Gaufrette
+     * @var Symfony
      */
     private $filesystem;
 
     /**
+     * The path.
+     *
+     * @var string
+     */
+    private $path;
+
+    /**
      * Constructor.
      *
-     * @param Gaufrette $aFilesystem The Gaufrette filesystem
+     * @param string  $aPath       The path
+     * @param Symfony $aFilesystem The Symfony filesystem
      */
-    public function __construct(Gaufrette $aFilesystem)
+    public function __construct($aPath, Symfony $aFilesystem)
     {
         $this->filesystem = $aFilesystem;
+        $this->path = rtrim($aPath, '/') . '/';
     }
 
     /**
@@ -46,7 +55,7 @@ class GaufretteFilesystem implements Filesystem
      */
     public function delete(FileName $aName)
     {
-        $this->filesystem->delete($aName->name());
+        $this->filesystem->remove($this->path . $aName->name());
     }
 
     /**
@@ -54,7 +63,7 @@ class GaufretteFilesystem implements Filesystem
      */
     public function has(FileName $aName)
     {
-        return $this->filesystem->has($aName->name());
+        return $this->filesystem->exists($this->path . $aName->name());
     }
 
     /**
@@ -62,7 +71,7 @@ class GaufretteFilesystem implements Filesystem
      */
     public function overwrite(FileName $aName, $aContent)
     {
-        $this->filesystem->write($aName->name(), $aContent, true);
+        $this->filesystem->dumpFile($this->path . $aName->name(), $aContent);
     }
 
     /**
@@ -70,7 +79,7 @@ class GaufretteFilesystem implements Filesystem
      */
     public function read(FileName $aName)
     {
-        return $this->filesystem->read($aName->name());
+        return file_get_contents($this->path . $aName->name());
     }
 
     /**
@@ -78,7 +87,7 @@ class GaufretteFilesystem implements Filesystem
      */
     public function rename(FileName $anOldName, FileName $aNewName)
     {
-        $this->filesystem->rename($anOldName->name(), $aNewName->name());
+        $this->filesystem->rename($this->path . $anOldName->name(), $this->path . $aNewName->name());
     }
 
     /**
@@ -86,6 +95,6 @@ class GaufretteFilesystem implements Filesystem
      */
     public function write(FileName $aName, $aContent)
     {
-        $this->filesystem->write($aName->name(), $aContent);
+        $this->filesystem->dumpFile($this->path . $aName->name(), $aContent);
     }
 }

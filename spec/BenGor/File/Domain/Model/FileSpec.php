@@ -14,6 +14,7 @@ namespace spec\BenGor\File\Domain\Model;
 
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileId;
+use BenGor\File\Domain\Model\FileName;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -26,7 +27,7 @@ class FileSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(new FileId('dummy-id'), 'dummy-file');
+        $this->beConstructedWith(new FileId('dummy-id'), new FileName('dummy-file-name'));
     }
 
     function it_is_initializable()
@@ -46,12 +47,14 @@ class FileSpec extends ObjectBehavior
         $this->updatedOn()->shouldReturnAnInstanceOf(\DateTimeImmutable::class);
     }
 
-    function it_updates()
+    function it_overwrites()
     {
-        $this->name()->shouldReturn('dummy-file');
+        $this->name()->shouldReturnAnInstanceOf(FileName::class);
+        $this->name()->name()->shouldReturn('dummy-file-name');
 
-        $this->update('new-dummy-file');
+        $this->overwrite(new FileName('new-dummy-file-name'));
 
-        $this->name()->shouldReturn('new-dummy-file');
+        $this->name()->shouldReturnAnInstanceOf(FileName::class);
+        $this->name()->name()->shouldReturn('new-dummy-file-name');
     }
 }

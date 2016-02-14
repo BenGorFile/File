@@ -12,20 +12,19 @@
 
 namespace BenGor\File\Application\Service;
 
-use BenGor\File\Domain\Exception\UploadedFileAlreadyExistsException;
-use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Exception\FileDoesNotExistException;
+use BenGor\File\Domain\Exception\UploadedFileDoesNotExistException;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
 use Ddd\Application\Service\ApplicationService;
 
 /**
- * Upload file service class.
+ * Overwrite file service class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
- * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-final class UploadFileService implements ApplicationService
+final class OverwriteFileService implements ApplicationService
 {
     /**
      * The filesystem.
@@ -56,19 +55,23 @@ final class UploadFileService implements ApplicationService
     /**
      * {@inheritdoc}
      *
-     * @var UploadFileRequest The upload file request
+     * @var OverwriteFileRequest The override file request
      */
     public function execute($request = null)
     {
         $uploadedFile = $request->uploadedFile();
         $name = new FileName($request->name(), $uploadedFile->extension());
 
-        if (true === $this->filesystem->has($name)) {
-            throw new UploadedFileAlreadyExistsException();
+        if (false === $this->filesystem->has($name)) {
+            throw new UploadedFileDoesNotExistException();
+        }
+        $file = $this->repository->fileOfName($name);
+        if (null === $file) {
+            throw new FileDoesNotExistException();
         }
 
-        $this->filesystem->write($name, $uploadedFile->content());
-        $file = new File($this->repository->nextIdentity(), $name);
+        $this->filesystem->overwrite($name, $uploadedFile->content());
+        $file->overwrite($name);
 
         $this->repository->persist($file);
     }

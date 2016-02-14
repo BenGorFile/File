@@ -12,17 +12,16 @@
 
 namespace spec\BenGor\File\Application\Service;
 
-use BenGor\File\Application\Service\UploadFileRequest;
+use BenGor\File\Application\Service\OverwriteFileRequest;
 use BenGor\File\Domain\Model\UploadedFile;
 use PhpSpec\ObjectBehavior;
 
 /**
- * Spec file of UploadFileRequest class.
+ * Spec file of OverwriteFileRequest class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
- * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-class UploadFileRequestSpec extends ObjectBehavior
+class OverwriteFileRequestSpec extends ObjectBehavior
 {
     function let(UploadedFile $uploadedFile)
     {
@@ -31,20 +30,12 @@ class UploadFileRequestSpec extends ObjectBehavior
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(UploadFileRequest::class);
+        $this->shouldHaveType(OverwriteFileRequest::class);
     }
 
     function it_request()
     {
         $this->uploadedFile()->shouldReturnAnInstanceOf(UploadedFile::class);
         $this->name()->shouldReturn('dummy-file-name');
-    }
-
-    function it_request_without_name(UploadedFile $uploadedFile)
-    {
-        $this->beConstructedWith($uploadedFile);
-
-        $this->uploadedFile()->shouldReturnAnInstanceOf(UploadedFile::class);
-        $this->name()->shouldReturn(null);
     }
 }

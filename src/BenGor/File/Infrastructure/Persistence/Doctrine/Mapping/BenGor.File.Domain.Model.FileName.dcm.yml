@@ -6,10 +6,10 @@
 # For the full copyright and license information, please view the LICENSE
 # file that was distributed with this source code.
 
-BenGor\File\Domain\Model\FileId:
+BenGor\File\Domain\Model\FileName:
     type: embeddable
-    id:
-        id:
-            column: id
-            length: 36
+    fields:
+        name:
+            column: name
+            length: 255
             type: string

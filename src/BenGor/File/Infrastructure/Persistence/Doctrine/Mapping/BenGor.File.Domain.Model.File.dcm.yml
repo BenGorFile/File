@@ -14,13 +14,13 @@ BenGor\File\Domain\Model\File:
         id:
             class: BenGor\File\Domain\Model\FileId
             columnPrefix: false
+        name:
+            class: BenGor\File\Domain\Model\FileName
+            columnPrefix: false
     fields:
         createdOn:
             column: created_on
             type: datetime
-        name:
-            type: string
-            lenght: 255
         updatedOn:
             column: updated_on
             type: datetime

@@ -16,7 +16,7 @@ use BenGor\File\Domain\Model\FileId;
 use PhpSpec\ObjectBehavior;
 
 /**
- * Spec file of File Id value object class.
+ * Spec file of FileId value object class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  * @author Gorka Laucirica <gorka.lauzirika@gmail.com>

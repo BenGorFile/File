@@ -32,11 +32,11 @@ interface FileRepository
     /**
      * Finds the file of given name.
      *
-     * @param string $aName The file name
+     * @param FileName $aName The file name
      *
      * @return File
      */
-    public function fileOfName($aName);
+    public function fileOfName(FileName $aName);
 
     /**
      * Persists the given file.

@@ -14,6 +14,7 @@ namespace BenGor\File\Infrastructure\Persistence\Sql;
 
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileId;
+use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 
 /**
@@ -59,7 +60,7 @@ final class SqlFileRepository implements FileRepository
      */
     public function fileOfName($aName)
     {
-        $statement = $this->execute('SELECT * FROM file WHERE name = :name', ['name' => $aName]);
+        $statement = $this->execute('SELECT * FROM file WHERE name = :name', ['name' => $aName->name()]);
         if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             return $this->buildFile($row);
         }
@@ -141,7 +142,7 @@ SQL
         $sql = 'INSERT INTO user (id, name, created_on, updated_on) VALUES (:id, :name, :createdOn, :updatedOn)';
         $this->execute($sql, [
             'id'        => $aFile->id()->id(),
-            'name'      => $aFile->name(),
+            'name'      => $aFile->name()->name(),
             'createdOn' => $aFile->createdOn()->format(self::DATE_FORMAT),
             'updatedOn' => $aFile->updatedOn()->format(self::DATE_FORMAT),
         ]);
@@ -155,8 +156,9 @@ SQL
     private function update(File $aFile)
     {
         $this->execute('UPDATE file SET name = :name, updated_on = :updatedOn WHERE id = :id', [
-            'id'        => $aFile->id()->id(),
+            'name'      => $aFile->name()->name(),
             'updatedOn' => $aFile->updatedOn(),
+            'id'        => $aFile->id()->id(),
         ]);
     }
 
@@ -188,7 +190,7 @@ SQL
     {
         return new File(
             new FileId($row['id']),
-            $row['name'],
+            new FileName($row['name']),
             new \DateTimeImmutable($row['created_on']),
             new \DateTimeImmutable($row['updated_on'])
         );

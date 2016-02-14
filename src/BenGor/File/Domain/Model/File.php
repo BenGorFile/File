@@ -12,6 +12,10 @@
 
 namespace BenGor\File\Domain\Model;
 
+use BenGor\File\Domain\Event\FileOverwritten;
+use BenGor\File\Domain\Event\FileUploaded;
+use Ddd\Domain\DomainEventPublisher;
+
 /**
  * File domain class.
  *
@@ -37,7 +41,7 @@ class File
     /**
      * The name.
      *
-     * @var string
+     * @var FileName
      */
     protected $name;
 
@@ -52,13 +56,13 @@ class File
      * Constructor.
      *
      * @param FileId                  $anId        The id
-     * @param string                  $aName       The file name
+     * @param FileName                $aName       The file name
      * @param \DateTimeImmutable|null $aCreatedOn  The created on
      * @param \DateTimeImmutable|null $anUpdatedOn The updated on
      */
     public function __construct(
         FileId $anId,
-        $aName,
+        FileName $aName,
         \DateTimeImmutable $aCreatedOn = null,
         \DateTimeImmutable $anUpdatedOn = null
     ) {
@@ -66,6 +70,8 @@ class File
         $this->name = $aName;
         $this->createdOn = $aCreatedOn ?: new \DateTimeImmutable();
         $this->updatedOn = $anUpdatedOn ?: new \DateTimeImmutable();
+
+        DomainEventPublisher::instance()->publish(new FileUploaded($this));
     }
 
     /**
@@ -91,7 +97,7 @@ class File
     /**
      * Gets the file name.
      *
-     * @return string
+     * @return FileName
      */
     public function name()
     {
@@ -99,14 +105,16 @@ class File
     }
 
     /**
-     * Updates the file.
+     * Overwrites the file.
      *
-     * @param string $aName The file name
+     * @param FileName $aName The file name
      */
-    public function update($aName)
+    public function overwrite(FileName $aName)
     {
         $this->name = $aName;
         $this->updatedOn = new \DateTimeImmutable();
+
+        DomainEventPublisher::instance()->publish(new FileOverwritten($this));
     }
 
     /**
