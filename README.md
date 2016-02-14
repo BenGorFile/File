@@ -1,6 +1,7 @@
 #BenGorFile
 > Lightweight file PHP library developed using Domain-Driven Design
 
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/c684216d-c5f3-4b70-a7cf-1ec2af743142/mini.png)](https://insight.sensiolabs.com/projects/c684216d-c5f3-4b70-a7cf-1ec2af743142)
 [![Build Status](https://travis-ci.org/BenGor/File.svg?branch=master)](https://travis-ci.org/BenGor/File)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BenGor/File/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BenGor/File/?branch=master)
 [![Total Downloads](https://poser.pugx.org/bengor/file/downloads)](https://packagist.org/packages/bengor/file)
@@ -8,7 +9,10 @@
 [![Latest Unstable Version](https://poser.pugx.org/bengor/file/v/unstable.svg)](https://packagist.org/packages/bengor/file)
 
 BenGorFile is **lightweight, flexible and easy to use** file management library. Using **Domain-Driven Design**
-this library offers a well tested and documented codebase to manage your uploads files.
+this library offers a well tested and documented codebase with many common use cases already implemented, such as:
+
+ * Upload file
+ * Overwrite file
 
 ##Requirements
 PHP >= 5.5

@@ -15,7 +15,8 @@ namespace BenGor\File\Infrastructure\Persistence\Doctrine;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileId;
 use BenGor\File\Domain\Model\FileName;
-use BenGor\File\Domain\Model\FileRepository;
+use BenGor\File\Domain\Model\FileRepository
+use Doctrine\ORM\EntityRepository;
 
 /**
  * Doctrine file repository class.

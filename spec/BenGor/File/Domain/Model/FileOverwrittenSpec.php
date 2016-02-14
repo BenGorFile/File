@@ -12,8 +12,8 @@
 
 namespace spec\BenGor\File\Domain\Model;
 
-use BenGor\File\Domain\Model\FileOverwritten;
 use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Model\FileOverwritten;
 use Ddd\Domain\DomainEvent;
 use Ddd\Domain\Event\PublishableDomainEvent;
 use PhpSpec\ObjectBehavior;

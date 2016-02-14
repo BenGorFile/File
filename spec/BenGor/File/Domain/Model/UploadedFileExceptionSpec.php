@@ -12,8 +12,8 @@
 
 namespace spec\BenGor\File\Domain\Model;
 
-use BenGor\File\Domain\Model\UploadedFileException;
 use BenGor\File\Domain\Model\FileName;
+use BenGor\File\Domain\Model\UploadedFileException;
 use PhpSpec\ObjectBehavior;
 
 /**

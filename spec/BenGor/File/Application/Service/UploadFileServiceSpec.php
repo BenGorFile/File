@@ -14,7 +14,6 @@ namespace spec\BenGor\File\Application\Service;
 
 use BenGor\File\Application\Service\UploadFileRequest;
 use BenGor\File\Application\Service\UploadFileService;
-use BenGor\File\Domain\Exception\UploadedFileAlreadyExistsException;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileId;
 use BenGor\File\Domain\Model\FileName;
