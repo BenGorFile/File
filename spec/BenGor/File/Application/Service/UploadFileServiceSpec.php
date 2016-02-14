@@ -20,6 +20,7 @@ use BenGor\File\Domain\Model\FileId;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
+use BenGor\File\Domain\Model\UploadedFileException;
 use BenGor\File\Infrastructure\UploadedFile\Test\DummyUploadedFile;
 use Ddd\Application\Service\ApplicationService;
 use PhpSpec\ObjectBehavior;
@@ -69,6 +70,6 @@ class UploadFileServiceSpec extends ObjectBehavior
 
         $filesystem->has($name)->shouldBeCalled()->willReturn(true);
 
-        $this->shouldThrow(UploadedFileAlreadyExistsException::class)->duringExecute($request);
+        $this->shouldThrow(UploadedFileException::alreadyExists($name))->duringExecute($request);
     }
 }

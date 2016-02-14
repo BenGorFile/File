@@ -12,8 +12,6 @@
 
 namespace BenGor\File\Domain\Model;
 
-use BenGor\File\Domain\Event\FileOverwritten;
-use BenGor\File\Domain\Event\FileUploaded;
 use Ddd\Domain\DomainEventPublisher;
 
 /**

@@ -14,12 +14,12 @@ namespace spec\BenGor\File\Application\Service;
 
 use BenGor\File\Application\Service\OverwriteFileRequest;
 use BenGor\File\Application\Service\OverwriteFileService;
-use BenGor\File\Domain\Exception\FileDoesNotExistException;
-use BenGor\File\Domain\Exception\UploadedFileDoesNotExistException;
 use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Model\FileException;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
+use BenGor\File\Domain\Model\UploadedFileException;
 use BenGor\File\Infrastructure\UploadedFile\Test\DummyUploadedFile;
 use Ddd\Application\Service\ApplicationService;
 use PhpSpec\ObjectBehavior;
@@ -69,7 +69,7 @@ class OverwriteFileServiceSpec extends ObjectBehavior
 
         $filesystem->has($name)->shouldBeCalled()->willReturn(false);
 
-        $this->shouldThrow(UploadedFileDoesNotExistException::class)->duringExecute($request);
+        $this->shouldThrow(UploadedFileException::doesNotExist($name))->duringExecute($request);
     }
 
     function it_does_not_execute_because_file_does_not_exist(Filesystem $filesystem, FileRepository $repository)
@@ -80,6 +80,6 @@ class OverwriteFileServiceSpec extends ObjectBehavior
         $filesystem->has($name)->shouldBeCalled()->willReturn(true);
         $repository->fileOfName($name)->shouldBeCalled()->willReturn(null);
 
-        $this->shouldThrow(FileDoesNotExistException::class)->duringExecute($request);
+        $this->shouldThrow(FileException::doesNotExist($name))->duringExecute($request);
     }
 }

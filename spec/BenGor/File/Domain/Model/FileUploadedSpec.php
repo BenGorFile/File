@@ -10,9 +10,9 @@
  * file that was distributed with this source code.
  */
 
-namespace spec\BenGor\File\Domain\Event;
+namespace spec\BenGor\File\Domain\Model;
 
-use BenGor\File\Domain\Event\FileUploaded;
+use BenGor\File\Domain\Model\FileUploaded;
 use BenGor\File\Domain\Model\File;
 use Ddd\Domain\DomainEvent;
 use Ddd\Domain\Event\PublishableDomainEvent;

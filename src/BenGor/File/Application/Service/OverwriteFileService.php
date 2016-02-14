@@ -12,11 +12,11 @@
 
 namespace BenGor\File\Application\Service;
 
-use BenGor\File\Domain\Exception\FileDoesNotExistException;
-use BenGor\File\Domain\Exception\UploadedFileDoesNotExistException;
+use BenGor\File\Domain\Model\FileException;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
+use BenGor\File\Domain\Model\UploadedFileException;
 use Ddd\Application\Service\ApplicationService;
 
 /**
@@ -63,11 +63,11 @@ final class OverwriteFileService implements ApplicationService
         $name = new FileName($request->name(), $uploadedFile->extension());
 
         if (false === $this->filesystem->has($name)) {
-            throw new UploadedFileDoesNotExistException();
+            throw UploadedFileException::doesNotExist($name);
         }
         $file = $this->repository->fileOfName($name);
         if (null === $file) {
-            throw new FileDoesNotExistException();
+            throw FileException::doesNotExist($name);
         }
 
         $this->filesystem->overwrite($name, $uploadedFile->content());

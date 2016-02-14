@@ -10,19 +10,18 @@
  * file that was distributed with this source code.
  */
 
-namespace BenGor\File\Domain\Event;
+namespace BenGor\File\Domain\Model;
 
-use BenGor\File\Domain\Model\File;
 use Ddd\Domain\DomainEvent;
 use Ddd\Domain\Event\PublishableDomainEvent;
 
 /**
- * File overwritten domain event class.
+ * File uploaded domain event class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-final class FileOverwritten implements DomainEvent, PublishableDomainEvent
+final class FileUploaded implements DomainEvent, PublishableDomainEvent
 {
     /**
      * The file.

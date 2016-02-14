@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace BenGor\File\Infrastructure\FileSystem\Symfony;
+namespace BenGor\File\Infrastructure\Filesystem\Symfony;
 
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\Filesystem;

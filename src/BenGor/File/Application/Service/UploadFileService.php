@@ -12,11 +12,11 @@
 
 namespace BenGor\File\Application\Service;
 
-use BenGor\File\Domain\Exception\UploadedFileAlreadyExistsException;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
+use BenGor\File\Domain\Model\UploadedFileException;
 use Ddd\Application\Service\ApplicationService;
 
 /**
@@ -64,7 +64,7 @@ final class UploadFileService implements ApplicationService
         $name = new FileName($request->name(), $uploadedFile->extension());
 
         if (true === $this->filesystem->has($name)) {
-            throw new UploadedFileAlreadyExistsException();
+            throw UploadedFileException::alreadyExists($name);
         }
 
         $this->filesystem->write($name, $uploadedFile->content());
