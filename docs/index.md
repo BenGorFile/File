@@ -1,3 +1,3 @@
-#BenGorMedia documentation
+#BenGorFile documentation
 
 * [Domain model](domain_model.md)

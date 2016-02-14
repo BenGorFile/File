@@ -9,5 +9,8 @@ Main domain file that it is needed to resolve some common use cases.
 ##UploadedFile
 Uploaded file interface that represents the physical and real file.
 
-##FileSystem
+##Filesystem
 Abstraction layer that allows common actions over uploaded file.
+
+##Value Objects
+FileId, FileName.
