@@ -16,6 +16,7 @@ use BenGor\File\Application\Service\OverwriteFileRequest;
 use BenGor\File\Application\Service\OverwriteFileService;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileException;
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -49,13 +50,19 @@ class OverwriteFileServiceSpec extends ObjectBehavior
 
     function it_executes(Filesystem $filesystem, FileRepository $repository, File $file)
     {
-        $request = new OverwriteFileRequest(new DummyUploadedFile('test-content', 'pdf'), 'dummy-file-name');
-        $name = new FileName('dummy-file-name', 'pdf');
+        $request = new OverwriteFileRequest(
+            new DummyUploadedFile(
+                'test-content', 'original-name', 'pdf'
+            ),
+            'dummy-file-name'
+        );
+        $name = new FileName('dummy-file-name');
+        $extension = new FileExtension('pdf');
 
-        $filesystem->has($name)->shouldBeCalled()->willReturn(true);
-        $repository->fileOfName($name)->shouldBeCalled()->willReturn($file);
-        $filesystem->overwrite($name, 'test-content')->shouldBeCalled();
-        $file->overwrite($name)->shouldBeCalled();
+        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(true);
+        $repository->fileOfName($name, $extension)->shouldBeCalled()->willReturn($file);
+        $filesystem->overwrite($name, $extension, 'test-content')->shouldBeCalled();
+        $file->overwrite($name, $extension)->shouldBeCalled();
 
         $repository->persist(Argument::type(File::class))->shouldBeCalled();
 
@@ -64,22 +71,34 @@ class OverwriteFileServiceSpec extends ObjectBehavior
 
     function it_does_not_execute_because_uploaded_file_does_not_exist(Filesystem $filesystem)
     {
-        $request = new OverwriteFileRequest(new DummyUploadedFile('test-content', 'pdf'), 'dummy-file-name');
-        $name = new FileName('dummy-file-name', 'pdf');
+        $request = new OverwriteFileRequest(
+            new DummyUploadedFile(
+                'test-content', 'original-name', 'pdf'
+            ),
+            'dummy-file-name'
+        );
+        $name = new FileName('dummy-file-name');
+        $extension = new FileExtension('pdf');
 
-        $filesystem->has($name)->shouldBeCalled()->willReturn(false);
+        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(false);
 
-        $this->shouldThrow(UploadedFileException::doesNotExist($name))->duringExecute($request);
+        $this->shouldThrow(UploadedFileException::doesNotExist($name, $extension))->duringExecute($request);
     }
 
     function it_does_not_execute_because_file_does_not_exist(Filesystem $filesystem, FileRepository $repository)
     {
-        $request = new OverwriteFileRequest(new DummyUploadedFile('test-content', 'pdf'), 'dummy-file-name');
-        $name = new FileName('dummy-file-name', 'pdf');
+        $request = new OverwriteFileRequest(
+            new DummyUploadedFile(
+                'test-content', 'original-name', 'pdf'
+            ),
+            'dummy-file-name'
+        );
+        $name = new FileName('dummy-file-name');
+        $extension = new FileExtension('pdf');
 
-        $filesystem->has($name)->shouldBeCalled()->willReturn(true);
-        $repository->fileOfName($name)->shouldBeCalled()->willReturn(null);
+        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(true);
+        $repository->fileOfName($name, $extension)->shouldBeCalled()->willReturn(null);
 
-        $this->shouldThrow(FileException::doesNotExist($name))->duringExecute($request);
+        $this->shouldThrow(FileException::doesNotExist($name, $extension))->duringExecute($request);
     }
 }

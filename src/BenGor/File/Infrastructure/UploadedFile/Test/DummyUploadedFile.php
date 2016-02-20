@@ -37,12 +37,20 @@ final class DummyUploadedFile implements UploadedFile
     private $extension;
 
     /**
+     * The name.
+     *
+     * @var string
+     */
+    private $name;
+
+    /**
      * Constructor.
      *
      * @param string $aContent    The content
+     * @param string $aName       The name
      * @param string $anExtension The extension
      */
-    public function __construct($aContent, $anExtension)
+    public function __construct($aContent, $aName, $anExtension)
     {
         $this->content = $aContent;
         $this->extension = $anExtension;
@@ -62,5 +70,13 @@ final class DummyUploadedFile implements UploadedFile
     public function extension()
     {
         return $this->extension;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function name()
+    {
+        return $this->name;
     }
 }

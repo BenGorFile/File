@@ -53,6 +53,14 @@ final class SymfonyUploadedFile implements UploadedFile
      */
     public function extension()
     {
-        return $this->uploadedFile->getExtension();
+        return $this->uploadedFile->guessClientExtension() ?: $this->uploadedFile->getClientOriginalExtension();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function name()
+    {
+        return $this->uploadedFile->getClientOriginalName();
     }
 }

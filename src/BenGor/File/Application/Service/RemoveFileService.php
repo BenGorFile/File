@@ -13,6 +13,7 @@
 namespace BenGor\File\Application\Service;
 
 use BenGor\File\Domain\Model\FileException;
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -60,16 +61,17 @@ final class RemoveFileService implements ApplicationService
     public function execute($request = null)
     {
         $name = new FileName($request->name());
+        $extension = new FileExtension($request->extension());
 
-        if (false === $this->filesystem->has($name)) {
-            throw UploadedFileException::doesNotExist($name);
+        if (false === $this->filesystem->has($name, $extension)) {
+            throw UploadedFileException::doesNotExist($name, $extension);
         }
-        $file = $this->repository->fileOfName($name);
+        $file = $this->repository->fileOfName($name, $extension);
         if (null === $file) {
-            throw FileException::doesNotExist($name);
+            throw FileException::doesNotExist($name, $extension);
         }
 
-        $this->filesystem->delete($name);
+        $this->filesystem->delete($name, $extension);
         $this->repository->remove($file);
     }
 }

@@ -24,7 +24,7 @@ class RemoveFileRequestSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith('dummy-file-name');
+        $this->beConstructedWith('dummy-file-name', 'pdf');
     }
 
     function it_is_initializable()
@@ -35,5 +35,6 @@ class RemoveFileRequestSpec extends ObjectBehavior
     function it_request()
     {
         $this->name()->shouldReturn('dummy-file-name');
+        $this->extension()->shouldReturn('pdf');
     }
 }

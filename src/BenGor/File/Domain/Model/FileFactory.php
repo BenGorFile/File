@@ -13,24 +13,20 @@
 namespace BenGor\File\Domain\Model;
 
 /**
- * Exceptions about file domain class.
+ * File factory domain class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-final class FileException extends \Exception
+interface FileFactory
 {
     /**
-     * File does not exist exception.
+     * Registers the user with given id, email and password.
      *
+     * @param FileId        $anId        The file id
      * @param FileName      $aName       The file name
      * @param FileExtension $anExtension The file extension
      *
-     * @return FileException
+     * @return File
      */
-    public static function doesNotExist(FileName $aName, FileExtension $anExtension)
-    {
-        return new static(sprintf(
-            'File with %s.%s filename does not exist', $aName->name(), $anExtension->extension()
-        ));
-    }
+    public function build(FileId $anId, FileName $aName, FileExtension $anExtension);
 }

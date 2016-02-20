@@ -41,9 +41,9 @@ final class OverwriteFileRequest
      * @param UploadedFile $anUploadedFile The uploaded file
      * @param string       $aName          The file name
      */
-    public function __construct(UploadedFile $anUploadedFile, $aName)
+    public function __construct(UploadedFile $anUploadedFile, $aName = null)
     {
-        $this->name = $aName;
+        $this->name = null === $aName ? $anUploadedFile->name() : $aName;
         $this->uploadedFile = $anUploadedFile;
     }
 

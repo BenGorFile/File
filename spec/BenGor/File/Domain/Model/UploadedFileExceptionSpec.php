@@ -12,6 +12,7 @@
 
 namespace spec\BenGor\File\Domain\Model;
 
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\UploadedFileException;
 use PhpSpec\ObjectBehavior;
@@ -36,14 +37,16 @@ class UploadedFileExceptionSpec extends ObjectBehavior
     function it_constructs_already_exists()
     {
         $this::alreadyExists(
-            new FileName('dummy-file-name', 'pdf')
+            new FileName('dummy-file-name'),
+            new FileExtension('pdf')
         )->shouldReturnAnInstanceOf(UploadedFileException::class);
     }
 
     function it_constructs_does_not_exist()
     {
         $this::doesNotExist(
-            new FileName('dummy-file-name', 'pdf')
+            new FileName('dummy-file-name'),
+            new FileExtension('pdf')
         )->shouldReturnAnInstanceOf(UploadedFileException::class);
     }
 }

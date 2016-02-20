@@ -37,6 +37,13 @@ class File
     protected $createdOn;
 
     /**
+     * The extension.
+     *
+     * @var FileExtension
+     */
+    protected $extension;
+
+    /**
      * The name.
      *
      * @var FileName
@@ -55,12 +62,14 @@ class File
      *
      * @param FileId                  $anId        The id
      * @param FileName                $aName       The file name
+     * @param FileExtension           $anExtension The file extension
      * @param \DateTimeImmutable|null $aCreatedOn  The created on
      * @param \DateTimeImmutable|null $anUpdatedOn The updated on
      */
     public function __construct(
         FileId $anId,
         FileName $aName,
+        FileExtension $anExtension,
         \DateTimeImmutable $aCreatedOn = null,
         \DateTimeImmutable $anUpdatedOn = null
     ) {
@@ -68,6 +77,7 @@ class File
         $this->name = $aName;
         $this->createdOn = $aCreatedOn ?: new \DateTimeImmutable();
         $this->updatedOn = $anUpdatedOn ?: new \DateTimeImmutable();
+        $this->setExtension($anExtension);
 
         DomainEventPublisher::instance()->publish(new FileUploaded($this));
     }
@@ -80,6 +90,16 @@ class File
     public function id()
     {
         return $this->id;
+    }
+
+    /**
+     * Gets the file extension.
+     *
+     * @return FileExtension
+     */
+    public function extension()
+    {
+        return $this->extension;
     }
 
     /**
@@ -105,14 +125,24 @@ class File
     /**
      * Overwrites the file.
      *
-     * @param FileName $aName The file name
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
      */
-    public function overwrite(FileName $aName)
+    public function overwrite(FileName $aName, FileExtension $anExtension)
     {
         $this->name = $aName;
+        $this->extension = $anExtension;
         $this->updatedOn = new \DateTimeImmutable();
 
         DomainEventPublisher::instance()->publish(new FileOverwritten($this));
+    }
+
+    /**
+     * Removes the file.
+     */
+    public function remove()
+    {
+        DomainEventPublisher::instance()->publish(new FileRemoved($this));
     }
 
     /**
@@ -123,5 +153,40 @@ class File
     public function updatedOn()
     {
         return $this->updatedOn;
+    }
+
+    /**
+     * Gets the available extension => mime-type pairs.
+     *
+     * Example of returned array structure:
+     *      [
+     *          'jpeg' => 'image/jpeg',
+     *          'jpg'  => 'image/jpeg',
+     *          'pdf'  => 'application/pdf',
+     *      ]
+     *
+     * This method is an extension point that it allows
+     * to limit the mime-types easily in the domain.
+     *
+     * @return array
+     */
+    public static function availableMimeTypes()
+    {
+        return FileExtension::mimeTypes();
+    }
+
+    /**
+     * Sets the extension given if it appears between allowed extensions.
+     *
+     * @param FileExtension $anExtension The file extension
+     *
+     * @throws FileExtensionException when the extension does not support
+     */
+    protected function setExtension(FileExtension $anExtension)
+    {
+        if (false === array_key_exists($anExtension->extension(), static::availableMimeTypes())) {
+            throw FileExtensionException::doesNotSupport($anExtension);
+        }
+        $this->extension = $anExtension;
     }
 }

@@ -12,6 +12,7 @@
 
 namespace BenGor\File\Infrastructure\Filesystem\Gaufrette;
 
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\Filesystem;
 use Gaufrette\Filesystem as Gaufrette;
@@ -44,33 +45,33 @@ class GaufretteFilesystem implements Filesystem
     /**
      * {@inheritdoc}
      */
-    public function delete(FileName $aName)
+    public function delete(FileName $aName, FileExtension $anExtension)
     {
-        $this->filesystem->delete($aName->name());
+        $this->filesystem->delete($aName->name() . '.' . $anExtension->extension());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function has(FileName $aName)
+    public function has(FileName $aName, FileExtension $anExtension)
     {
-        return $this->filesystem->has($aName->name());
+        return $this->filesystem->has($aName->name() . '.' . $anExtension->extension());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function overwrite(FileName $aName, $aContent)
+    public function overwrite(FileName $aName, FileExtension $anExtension, $aContent)
     {
-        $this->filesystem->write($aName->name(), $aContent, true);
+        $this->filesystem->write($aName->name() . '.' . $anExtension->extension(), $aContent, true);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function read(FileName $aName)
+    public function read(FileName $aName, FileExtension $anExtension)
     {
-        return $this->filesystem->read($aName->name());
+        return $this->filesystem->read($aName->name() . '.' . $anExtension->extension());
     }
 
     /**
@@ -84,8 +85,8 @@ class GaufretteFilesystem implements Filesystem
     /**
      * {@inheritdoc}
      */
-    public function write(FileName $aName, $aContent)
+    public function write(FileName $aName, FileExtension $anExtension, $aContent)
     {
-        $this->filesystem->write($aName->name(), $aContent);
+        $this->filesystem->write($aName->name() . '.' . $anExtension->extension(), $aContent);
     }
 }

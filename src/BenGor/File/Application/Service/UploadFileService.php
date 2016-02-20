@@ -13,6 +13,8 @@
 namespace BenGor\File\Application\Service;
 
 use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Model\FileExtension;
+use BenGor\File\Domain\Model\FileFactory;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -27,6 +29,13 @@ use Ddd\Application\Service\ApplicationService;
  */
 final class UploadFileService implements ApplicationService
 {
+    /**
+     * The file factory.
+     *
+     * @var FileFactory
+     */
+    private $factory;
+
     /**
      * The filesystem.
      *
@@ -47,8 +56,9 @@ final class UploadFileService implements ApplicationService
      * @param Filesystem     $filesystem  The filesystem
      * @param FileRepository $aRepository THhe file repository
      */
-    public function __construct(Filesystem $filesystem, FileRepository $aRepository)
+    public function __construct(Filesystem $filesystem, FileRepository $aRepository, FileFactory $aFactory)
     {
+        $this->factory = $aFactory;
         $this->filesystem = $filesystem;
         $this->repository = $aRepository;
     }
@@ -61,14 +71,15 @@ final class UploadFileService implements ApplicationService
     public function execute($request = null)
     {
         $uploadedFile = $request->uploadedFile();
-        $name = new FileName($request->name(), $uploadedFile->extension());
+        $name = new FileName($request->name());
+        $extension = new FileExtension($uploadedFile->extension());
 
-        if (true === $this->filesystem->has($name)) {
-            throw UploadedFileException::alreadyExists($name);
+        if (true === $this->filesystem->has($name, $extension)) {
+            throw UploadedFileException::alreadyExists($name, $extension);
         }
 
-        $this->filesystem->write($name, $uploadedFile->content());
-        $file = new File($this->repository->nextIdentity(), $name);
+        $this->filesystem->write($name, $extension, $uploadedFile->content());
+        $file = $this->factory->build($this->repository->nextIdentity(), $name, $extension);
 
         $this->repository->persist($file);
     }

@@ -13,6 +13,7 @@
 namespace spec\BenGor\File\Domain\Model;
 
 use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileId;
 use BenGor\File\Domain\Model\FileName;
 use PhpSpec\ObjectBehavior;
@@ -27,7 +28,7 @@ class FileSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(new FileId('dummy-id'), new FileName('dummy-file-name'));
+        $this->beConstructedWith(new FileId('dummy-id'), new FileName('dummy-file-name'), new FileExtension('pdf'));
     }
 
     function it_is_initializable()
@@ -51,10 +52,15 @@ class FileSpec extends ObjectBehavior
     {
         $this->name()->shouldReturnAnInstanceOf(FileName::class);
         $this->name()->name()->shouldReturn('dummy-file-name');
+        $this->extension()->extension()->shouldReturn('pdf');
 
-        $this->overwrite(new FileName('new-dummy-file-name'));
+        $this->overwrite(
+            new FileName('new-dummy-file-name'),
+            new FileExtension('png')
+        );
 
         $this->name()->shouldReturnAnInstanceOf(FileName::class);
         $this->name()->name()->shouldReturn('new-dummy-file-name');
+        $this->extension()->extension()->shouldReturn('png');
     }
 }
