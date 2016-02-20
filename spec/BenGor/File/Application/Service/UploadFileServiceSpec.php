@@ -16,6 +16,7 @@ use BenGor\File\Application\Service\UploadFileRequest;
 use BenGor\File\Application\Service\UploadFileService;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileExtension;
+use BenGor\File\Domain\Model\FileFactory;
 use BenGor\File\Domain\Model\FileId;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
@@ -34,9 +35,9 @@ use Prophecy\Argument;
  */
 class UploadFileServiceSpec extends ObjectBehavior
 {
-    function let(Filesystem $filesystem, FileRepository $repository)
+    function let(Filesystem $filesystem, FileRepository $repository, FileFactory $factory)
     {
-        $this->beConstructedWith($filesystem, $repository);
+        $this->beConstructedWith($filesystem, $repository, $factory);
     }
 
     function it_is_initializable()
@@ -49,7 +50,7 @@ class UploadFileServiceSpec extends ObjectBehavior
         $this->shouldImplement(ApplicationService::class);
     }
 
-    function it_executes(Filesystem $filesystem, FileRepository $repository)
+    function it_executes(Filesystem $filesystem, FileRepository $repository, FileFactory $factory, File $file)
     {
         $request = new UploadFileRequest(
             new DummyUploadedFile('test-content', 'original-name', 'pdf'),
@@ -57,12 +58,14 @@ class UploadFileServiceSpec extends ObjectBehavior
         );
         $name = new FileName('dummy-file-name');
         $extension = new FileExtension('pdf');
+        $id = new FileId('dummy-id');
 
         $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(false);
 
         $filesystem->write($name, $extension, 'test-content')->shouldBeCalled();
-        $repository->nextIdentity()->shouldBeCalled()->willReturn(new FileId('dummy-id'));
-        $repository->persist(Argument::type(File::class))->shouldBeCalled();
+        $repository->nextIdentity()->shouldBeCalled()->willReturn($id);
+        $factory->build($id, $name, $extension)->shouldBeCalled()->willReturn($file);
+        $repository->persist($file)->shouldBeCalled();
 
         $this->execute($request);
     }

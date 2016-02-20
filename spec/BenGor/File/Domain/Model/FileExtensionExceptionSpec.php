@@ -14,7 +14,6 @@ namespace spec\BenGor\File\Domain\Model;
 
 use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileExtensionException;
-use BenGor\File\Domain\Model\FileName;
 use PhpSpec\ObjectBehavior;
 
 /**

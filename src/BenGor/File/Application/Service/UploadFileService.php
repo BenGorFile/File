@@ -14,6 +14,7 @@ namespace BenGor\File\Application\Service;
 
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileExtension;
+use BenGor\File\Domain\Model\FileFactory;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -28,6 +29,13 @@ use Ddd\Application\Service\ApplicationService;
  */
 final class UploadFileService implements ApplicationService
 {
+    /**
+     * The file factory.
+     *
+     * @var FileFactory
+     */
+    private $factory;
+
     /**
      * The filesystem.
      *
@@ -48,8 +56,9 @@ final class UploadFileService implements ApplicationService
      * @param Filesystem     $filesystem  The filesystem
      * @param FileRepository $aRepository THhe file repository
      */
-    public function __construct(Filesystem $filesystem, FileRepository $aRepository)
+    public function __construct(Filesystem $filesystem, FileRepository $aRepository, FileFactory $aFactory)
     {
+        $this->factory = $aFactory;
         $this->filesystem = $filesystem;
         $this->repository = $aRepository;
     }
@@ -70,7 +79,7 @@ final class UploadFileService implements ApplicationService
         }
 
         $this->filesystem->write($name, $extension, $uploadedFile->content());
-        $file = new File($this->repository->nextIdentity(), $name, $extension);
+        $file = $this->factory->build($this->repository->nextIdentity(), $name, $extension);
 
         $this->repository->persist($file);
     }
