@@ -72,6 +72,7 @@ final class RemoveFileService implements ApplicationService
         }
 
         $this->filesystem->delete($name, $extension);
+        $file->remove();
         $this->repository->remove($file);
     }
 }

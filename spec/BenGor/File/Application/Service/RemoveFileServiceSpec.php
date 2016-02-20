@@ -56,6 +56,7 @@ class RemoveFileServiceSpec extends ObjectBehavior
         $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(true);
         $repository->fileOfName($name, $extension)->shouldBeCalled()->willReturn($file);
         $filesystem->delete($name, $extension)->shouldBeCalled();
+        $file->remove()->shouldBeCalled();
 
         $repository->remove(Argument::type(File::class))->shouldBeCalled();
 
