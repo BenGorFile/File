@@ -9,7 +9,7 @@
 BenGor\File\Domain\Model\FileExtension:
     type: embeddable
     fields:
-        name:
+        extension:
             column: extension
             length: 100
             type: string
