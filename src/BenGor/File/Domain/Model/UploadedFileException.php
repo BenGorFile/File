@@ -22,24 +22,30 @@ final class UploadedFileException extends \Exception
     /**
      * Uploaded file already exists exception.
      *
-     * @param FileName $aName The file name
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
      *
      * @return UploadedFileException
      */
-    public static function alreadyExists(FileName $aName)
+    public static function alreadyExists(FileName $aName, FileExtension $anExtension)
     {
-        return new static(sprintf('Uploaded file with %s name is already exists', $aName->name()));
+        return new static(sprintf(
+            'Uploaded file with %s.%s filename is already exists', $aName->name(), $anExtension->extension()
+        ));
     }
 
     /**
      * Uploaded file does not exist exception.
      *
-     * @param FileName $aName The file name
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
      *
      * @return UploadedFileException
      */
-    public static function doesNotExist(FileName $aName)
+    public static function doesNotExist(FileName $aName, FileExtension $anExtension)
     {
-        return new static(sprintf('Uploaded file with %s name does not exist', $aName->name()));
+        return new static(sprintf(
+            'Uploaded file with %s.%s filename does not exist', $aName->name(), $anExtension->extension()
+        ));
     }
 }

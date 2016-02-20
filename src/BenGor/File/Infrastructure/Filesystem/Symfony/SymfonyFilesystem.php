@@ -12,6 +12,7 @@
 
 namespace BenGor\File\Infrastructure\Filesystem\Symfony;
 
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\Filesystem;
 use Symfony\Component\Filesystem\Filesystem as Symfony;
@@ -53,33 +54,33 @@ class SymfonyFilesystem implements Filesystem
     /**
      * {@inheritdoc}
      */
-    public function delete(FileName $aName)
+    public function delete(FileName $aName, FileExtension $anExtension)
     {
-        $this->filesystem->remove($this->path . $aName->name());
+        $this->filesystem->remove($this->path . $aName->name() . '.' . $anExtension->extension());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function has(FileName $aName)
+    public function has(FileName $aName, FileExtension $anExtension)
     {
-        return $this->filesystem->exists($this->path . $aName->name());
+        return $this->filesystem->exists($this->path . $aName->name() . '.' . $anExtension->extension());
     }
 
     /**
      * {@inheritdoc}
      */
-    public function overwrite(FileName $aName, $aContent)
+    public function overwrite(FileName $aName, FileExtension $anExtension, $aContent)
     {
-        $this->filesystem->dumpFile($this->path . $aName->name(), $aContent);
+        $this->filesystem->dumpFile($this->path . $aName->name() . '.' . $anExtension->extension(), $aContent);
     }
 
     /**
      * {@inheritdoc}
      */
-    public function read(FileName $aName)
+    public function read(FileName $aName, FileExtension $anExtension)
     {
-        return file_get_contents($this->path . $aName->name());
+        return file_get_contents($this->path . $aName->name() . '.' . $anExtension->extension());
     }
 
     /**
@@ -93,8 +94,8 @@ class SymfonyFilesystem implements Filesystem
     /**
      * {@inheritdoc}
      */
-    public function write(FileName $aName, $aContent)
+    public function write(FileName $aName, FileExtension $anExtension, $aContent)
     {
-        $this->filesystem->dumpFile($this->path . $aName->name(), $aContent);
+        $this->filesystem->dumpFile($this->path . $aName->name() . '.' . $anExtension->extension(), $aContent);
     }
 }

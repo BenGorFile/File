@@ -10,12 +10,20 @@ BenGor\File\Domain\Model\File:
     type: entity
     repositoryClass: BenGor\File\Infrastructure\Persistence\Doctrine\DoctrineFileRepository
     table: file
+    uniqueConstraints:
+        search_idx:
+            columns:
+                - name
+                - extension
     embedded:
         id:
             class: BenGor\File\Domain\Model\FileId
             columnPrefix: false
         name:
             class: BenGor\File\Domain\Model\FileName
+            columnPrefix: false
+        extension:
+            class: BenGor\File\Domain\Model\FileExtension
             columnPrefix: false
     fields:
         createdOn:

@@ -13,6 +13,7 @@
 namespace BenGor\File\Infrastructure\Persistence\Sql;
 
 use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileId;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
@@ -58,12 +59,29 @@ final class SqlFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
-    public function fileOfName($aName)
+    public function fileOfName(FileName $aName, FileExtension $anExtension)
     {
-        $statement = $this->execute('SELECT * FROM file WHERE name = :name', ['name' => $aName->name()]);
+        $statement = $this->execute('SELECT * FROM file WHERE name = :name AND extension = :extension', [
+            'name'      => $aName->name(),
+            'extension' => $anExtension->extension(),
+        ]);
         if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             return $this->buildFile($row);
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function filesOfExtension(FileExtension $anExtension)
+    {
+        $statement = $this->execute('SELECT * FROM file WHERE extension = :extension', [
+            'extension' => $anExtension->extension(),
+        ]);
+
+        return array_map(function ($row) {
+            return $this->buildFile($row);
+        }, $statement->fetchAll(\PDO::FETCH_ASSOC));
     }
 
     /**
@@ -109,6 +127,7 @@ DROP TABLE IF EXISTS file;
 CREATE TABLE file (
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
+    extension VARCHAR(100) NOT NULL,
     created_on DATETIME NOT NULL,
     updated_on DATETIME NOT NULL
 )
@@ -139,10 +158,11 @@ SQL
      */
     private function insert(File $aFile)
     {
-        $sql = 'INSERT INTO user (id, name, created_on, updated_on) VALUES (:id, :name, :createdOn, :updatedOn)';
+        $sql = 'INSERT INTO user (id, name, extension, created_on, updated_on) VALUES (:id, :name, :extension, :createdOn, :updatedOn)';
         $this->execute($sql, [
             'id'        => $aFile->id()->id(),
             'name'      => $aFile->name()->name(),
+            'extension' => $aFile->extension()->extension(),
             'createdOn' => $aFile->createdOn()->format(self::DATE_FORMAT),
             'updatedOn' => $aFile->updatedOn()->format(self::DATE_FORMAT),
         ]);
@@ -155,8 +175,9 @@ SQL
      */
     private function update(File $aFile)
     {
-        $this->execute('UPDATE file SET name = :name, updated_on = :updatedOn WHERE id = :id', [
+        $this->execute('UPDATE file SET name = :name, extension = :extension, updated_on = :updatedOn WHERE id = :id', [
             'name'      => $aFile->name()->name(),
+            'extension' => $aFile->extension()->extension(),
             'updatedOn' => $aFile->updatedOn(),
             'id'        => $aFile->id()->id(),
         ]);
@@ -191,6 +212,7 @@ SQL
         return new File(
             new FileId($row['id']),
             new FileName($row['name']),
+            new FileExtension($row['extension']),
             new \DateTimeImmutable($row['created_on']),
             new \DateTimeImmutable($row['updated_on'])
         );

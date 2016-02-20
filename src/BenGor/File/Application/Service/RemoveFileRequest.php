@@ -27,13 +27,22 @@ final class RemoveFileRequest
     private $name;
 
     /**
+     * The file extension.
+     *
+     * @var string
+     */
+    private $extension;
+
+    /**
      * Constructor.
      *
-     * @param string $aName The file name
+     * @param string $aName       The file name
+     * @param string $anExtension The file extension
      */
-    public function __construct($aName)
+    public function __construct($aName, $anExtension)
     {
         $this->name = $aName;
+        $this->extension = $anExtension;
     }
 
     /**
@@ -44,5 +53,15 @@ final class RemoveFileRequest
     public function name()
     {
         return $this->name;
+    }
+
+    /**
+     * Gets the file extension.
+     *
+     * @return string
+     */
+    public function extension()
+    {
+        return $this->extension;
     }
 }

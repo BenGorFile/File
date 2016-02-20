@@ -13,6 +13,7 @@
 namespace BenGor\File\Application\Service;
 
 use BenGor\File\Domain\Model\FileException;
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -60,18 +61,19 @@ final class OverwriteFileService implements ApplicationService
     public function execute($request = null)
     {
         $uploadedFile = $request->uploadedFile();
-        $name = new FileName($request->name(), $uploadedFile->extension());
+        $name = new FileName($request->name());
+        $extension = new FileExtension($uploadedFile->extension());
 
-        if (false === $this->filesystem->has($name)) {
-            throw UploadedFileException::doesNotExist($name);
+        if (false === $this->filesystem->has($name, $extension)) {
+            throw UploadedFileException::doesNotExist($name, $extension);
         }
-        $file = $this->repository->fileOfName($name);
+        $file = $this->repository->fileOfName($name, $extension);
         if (null === $file) {
-            throw FileException::doesNotExist($name);
+            throw FileException::doesNotExist($name, $extension);
         }
 
-        $this->filesystem->overwrite($name, $uploadedFile->content());
-        $file->overwrite($name);
+        $this->filesystem->overwrite($name, $extension, $uploadedFile->content());
+        $file->overwrite($name, $extension);
 
         $this->repository->persist($file);
     }

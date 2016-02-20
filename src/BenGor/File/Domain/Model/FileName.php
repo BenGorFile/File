@@ -32,13 +32,11 @@ final class FileName
     /**
      * Constructor.
      *
-     * @param string|null $aName       The name
-     * @param string|null $anExtension The extension
+     * @param string|null $aName The name
      */
-    public function __construct($aName = null, $anExtension = null)
+    public function __construct($aName = null)
     {
         $this->name = null === $aName ? Uuid::uuid4()->toString() : $aName;
-        $this->addExtension($anExtension);
     }
 
     /**
@@ -71,18 +69,5 @@ final class FileName
     public function __toString()
     {
         return $this->name();
-    }
-
-    /**
-     * If extension isn't null, it concatenates to the name.
-     *
-     * @param string|null $anExtension The extension
-     */
-    private function addExtension($anExtension = null)
-    {
-        if (null === $anExtension) {
-            return;
-        }
-        $this->name .= sprintf('.%s', $anExtension);
     }
 }

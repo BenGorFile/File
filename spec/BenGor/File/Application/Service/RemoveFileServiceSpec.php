@@ -16,6 +16,7 @@ use BenGor\File\Application\Service\RemoveFileRequest;
 use BenGor\File\Application\Service\RemoveFileService;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileException;
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -48,12 +49,13 @@ class RemoveFileServiceSpec extends ObjectBehavior
 
     function it_executes(Filesystem $filesystem, FileRepository $repository, File $file)
     {
-        $request = new RemoveFileRequest('dummy-file-name.pdf');
-        $name = new FileName('dummy-file-name.pdf');
+        $request = new RemoveFileRequest('dummy-file-name', 'pdf');
+        $name = new FileName('dummy-file-name');
+        $extension = new FileExtension('pdf');
 
-        $filesystem->has($name)->shouldBeCalled()->willReturn(true);
-        $repository->fileOfName($name)->shouldBeCalled()->willReturn($file);
-        $filesystem->delete($name)->shouldBeCalled();
+        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(true);
+        $repository->fileOfName($name, $extension)->shouldBeCalled()->willReturn($file);
+        $filesystem->delete($name, $extension)->shouldBeCalled();
 
         $repository->remove(Argument::type(File::class))->shouldBeCalled();
 
@@ -62,22 +64,24 @@ class RemoveFileServiceSpec extends ObjectBehavior
 
     function it_does_not_execute_because_uploaded_file_does_not_exist(Filesystem $filesystem)
     {
-        $request = new RemoveFileRequest('dummy-file-name.pdf');
-        $name = new FileName('dummy-file-name.pdf');
+        $request = new RemoveFileRequest('dummy-file-name', 'pdf');
+        $name = new FileName('dummy-file-name');
+        $extension = new FileExtension('pdf');
 
-        $filesystem->has($name)->shouldBeCalled()->willReturn(false);
+        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(false);
 
-        $this->shouldThrow(UploadedFileException::doesNotExist($name))->duringExecute($request);
+        $this->shouldThrow(UploadedFileException::doesNotExist($name, $extension))->duringExecute($request);
     }
 
     function it_does_not_execute_because_file_does_not_exist(Filesystem $filesystem, FileRepository $repository)
     {
-        $request = new RemoveFileRequest('dummy-file-name.pdf');
-        $name = new FileName('dummy-file-name.pdf');
+        $request = new RemoveFileRequest('dummy-file-name', 'pdf');
+        $name = new FileName('dummy-file-name');
+        $extension = new FileExtension('pdf');
 
-        $filesystem->has($name)->shouldBeCalled()->willReturn(true);
-        $repository->fileOfName($name)->shouldBeCalled()->willReturn(null);
+        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(true);
+        $repository->fileOfName($name, $extension)->shouldBeCalled()->willReturn(null);
 
-        $this->shouldThrow(FileException::doesNotExist($name))->duringExecute($request);
+        $this->shouldThrow(FileException::doesNotExist($name, $extension))->duringExecute($request);
     }
 }

@@ -33,4 +33,11 @@ interface UploadedFile
      * @return string
      */
     public function extension();
+
+    /**
+     * Gets the name.
+     *
+     * @return string
+     */
+    public function name();
 }

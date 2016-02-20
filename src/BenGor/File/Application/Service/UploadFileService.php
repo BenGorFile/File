@@ -13,6 +13,7 @@
 namespace BenGor\File\Application\Service;
 
 use BenGor\File\Domain\Model\File;
+use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\FileRepository;
 use BenGor\File\Domain\Model\Filesystem;
@@ -61,14 +62,15 @@ final class UploadFileService implements ApplicationService
     public function execute($request = null)
     {
         $uploadedFile = $request->uploadedFile();
-        $name = new FileName($request->name(), $uploadedFile->extension());
+        $name = new FileName($request->name());
+        $extension = new FileExtension($uploadedFile->extension());
 
-        if (true === $this->filesystem->has($name)) {
-            throw UploadedFileException::alreadyExists($name);
+        if (true === $this->filesystem->has($name, $extension)) {
+            throw UploadedFileException::alreadyExists($name, $extension);
         }
 
-        $this->filesystem->write($name, $uploadedFile->content());
-        $file = new File($this->repository->nextIdentity(), $name);
+        $this->filesystem->write($name, $extension, $uploadedFile->content());
+        $file = new File($this->repository->nextIdentity(), $name, $extension);
 
         $this->repository->persist($file);
     }

@@ -21,37 +21,41 @@ namespace BenGor\File\Domain\Model;
 interface Filesystem
 {
     /**
-     * Removes the file of given file name.
+     * Removes the file of given filename.
      *
-     * @param FileName $aName The file name
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
      */
-    public function delete(FileName $aName);
+    public function delete(FileName $aName, FileExtension $anExtension);
 
     /**
-     * Checks if the file of given file name exists.
+     * Checks if the file of given filename exists.
      *
-     * @param FileName $aName The file name
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
      *
      * @return bool
      */
-    public function has(FileName $aName);
+    public function has(FileName $aName, FileExtension $anExtension);
 
     /**
-     * Overwrites the file of name given with a given content.
+     * Overwrites the file of filename given with a given content.
      *
-     * @param FileName $aName    The file name
-     * @param string   $aContent The content
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
+     * @param string        $aContent    The content
      */
-    public function overwrite(FileName $aName, $aContent);
+    public function overwrite(FileName $aName, FileExtension $anExtension, $aContent);
 
     /**
-     * Reads the file content of given file name.
+     * Reads the file content of given filename.
      *
-     * @param FileName $aName The file name
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
      *
      * @return string
      */
-    public function read(FileName $aName);
+    public function read(FileName $aName, FileExtension $anExtension);
 
     /**
      * Renames the file of given old file
@@ -63,10 +67,11 @@ interface Filesystem
     public function rename(FileName $anOldName, FileName $aNewName);
 
     /**
-     * Writes a new file with name and content given.
+     * Writes a new file with filename and content given.
      *
-     * @param FileName $aName    The file name
-     * @param string   $aContent The content
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
+     * @param string        $aContent    The content
      */
-    public function write(FileName $aName, $aContent);
+    public function write(FileName $aName, FileExtension $anExtension, $aContent);
 }
