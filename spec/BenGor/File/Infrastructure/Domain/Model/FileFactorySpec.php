@@ -14,10 +14,10 @@ namespace spec\BenGor\File\Infrastructure\Domain\Model;
 
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileExtension;
+use BenGor\File\Domain\Model\FileFactory as BaseFileFactory;
 use BenGor\File\Domain\Model\FileId;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Infrastructure\Domain\Model\FileFactory;
-use BenGor\File\Domain\Model\FileFactory as BaseFileFactory;
 use PhpSpec\ObjectBehavior;
 
 /**

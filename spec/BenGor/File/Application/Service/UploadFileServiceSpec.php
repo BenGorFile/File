@@ -25,7 +25,6 @@ use BenGor\File\Domain\Model\UploadedFileException;
 use BenGor\File\Infrastructure\UploadedFile\Test\DummyUploadedFile;
 use Ddd\Application\Service\ApplicationService;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 /**
  * Spec file of UploadFileService class.

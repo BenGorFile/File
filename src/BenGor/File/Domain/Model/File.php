@@ -138,6 +138,14 @@ class File
     }
 
     /**
+     * Removes the file.
+     */
+    public function remove()
+    {
+        DomainEventPublisher::instance()->publish(new FileRemoved($this));
+    }
+
+    /**
      * Gets the updated on.
      *
      * @return \DateTimeImmutable
