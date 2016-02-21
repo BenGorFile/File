@@ -13,6 +13,7 @@
 namespace spec\BenGor\File\Application\Service;
 
 use BenGor\File\Application\Service\OverwriteFileRequest;
+use BenGor\File\Application\Service\OverwriteFileResponse;
 use BenGor\File\Application\Service\OverwriteFileService;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileException;
@@ -66,7 +67,7 @@ class OverwriteFileServiceSpec extends ObjectBehavior
 
         $repository->persist(Argument::type(File::class))->shouldBeCalled();
 
-        $this->execute($request);
+        $this->execute($request)->shouldReturnAnInstanceOf(OverwriteFileResponse::class);
     }
 
     function it_does_not_execute_because_uploaded_file_does_not_exist(Filesystem $filesystem)

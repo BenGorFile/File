@@ -12,7 +12,6 @@
 
 namespace BenGor\File\Application\Service;
 
-use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileFactory;
 use BenGor\File\Domain\Model\FileName;
@@ -82,5 +81,7 @@ final class UploadFileService implements ApplicationService
         $file = $this->factory->build($this->repository->nextIdentity(), $name, $extension);
 
         $this->repository->persist($file);
+
+        return new UploadFileResponse($file);
     }
 }

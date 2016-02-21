@@ -13,6 +13,7 @@
 namespace spec\BenGor\File\Application\Service;
 
 use BenGor\File\Application\Service\UploadFileRequest;
+use BenGor\File\Application\Service\UploadFileResponse;
 use BenGor\File\Application\Service\UploadFileService;
 use BenGor\File\Domain\Model\File;
 use BenGor\File\Domain\Model\FileExtension;
@@ -66,7 +67,7 @@ class UploadFileServiceSpec extends ObjectBehavior
         $factory->build($id, $name, $extension)->shouldBeCalled()->willReturn($file);
         $repository->persist($file)->shouldBeCalled();
 
-        $this->execute($request);
+        $this->execute($request)->shouldReturnAnInstanceOf(UploadFileResponse::class);
     }
 
     function it_does_not_execute_because_already_exists_an_uploaded_file(Filesystem $filesystem)

@@ -76,5 +76,7 @@ final class OverwriteFileService implements ApplicationService
         $file->overwrite($name, $extension);
 
         $this->repository->persist($file);
+
+        return new OverwriteFileResponse($file);
     }
 }
