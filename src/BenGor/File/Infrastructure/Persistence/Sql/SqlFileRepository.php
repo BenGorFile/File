@@ -158,7 +158,7 @@ SQL
      */
     private function insert(File $aFile)
     {
-        $sql = 'INSERT INTO user (id, name, extension, created_on, updated_on) VALUES (:id, :name, :extension, :createdOn, :updatedOn)';
+        $sql = 'INSERT INTO file (id, name, extension, created_on, updated_on) VALUES (:id, :name, :extension, :createdOn, :updatedOn)';
         $this->execute($sql, [
             'id'        => $aFile->id()->id(),
             'name'      => $aFile->name()->name(),
