@@ -11,5 +11,5 @@ BenGor\File\Domain\Model\FileName:
     fields:
         name:
             column: name
-            length: 255
+            length: 150
             type: string
