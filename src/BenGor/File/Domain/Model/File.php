@@ -176,6 +176,17 @@ class File
     }
 
     /**
+     * Magic method that represents the file
+     * domain object in string format.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name->name() . '.' . $this->extension->extension();
+    }
+
+    /**
      * Sets the extension given if it appears between allowed extensions.
      *
      * @param FileExtension $anExtension The file extension

@@ -63,4 +63,9 @@ class FileSpec extends ObjectBehavior
         $this->name()->name()->shouldReturn('new-dummy-file-name');
         $this->extension()->extension()->shouldReturn('png');
     }
+
+    function it_returns_to_string()
+    {
+        $this->__toString('dummy-file-name.pdf');
+    }
 }
