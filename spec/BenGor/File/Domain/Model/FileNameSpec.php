@@ -40,6 +40,13 @@ class FileNameSpec extends ObjectBehavior
         $this->__toString()->shouldReturn('test-name');
     }
 
+    function it_constructs_with_unsanitize_string_name()
+    {
+        $this->beConstructedWith('the unsanitized file name `?¨');
+        $this->name()->shouldReturn('the-unsanitized-file-name');
+        $this->__toString()->shouldReturn('the-unsanitized-file-name');
+    }
+
     function it_compares_names()
     {
         $this->beConstructedWith('test-name');

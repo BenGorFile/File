@@ -44,7 +44,7 @@ final class UploadFileRequest
      */
     public function __construct(UploadedFile $anUploadedFile, $aName = null)
     {
-        $this->name = null === $aName ? $anUploadedFile->name() : $aName;
+        $this->name = $aName;
         $this->uploadedFile = $anUploadedFile;
     }
 
