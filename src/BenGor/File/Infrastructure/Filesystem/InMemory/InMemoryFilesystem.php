@@ -15,7 +15,6 @@ namespace BenGor\File\Infrastructure\Filesystem\InMemory;
 use BenGor\File\Domain\Model\FileExtension;
 use BenGor\File\Domain\Model\FileName;
 use BenGor\File\Domain\Model\Filesystem;
-use Symfony\Component\Filesystem\Filesystem as Symfony;
 
 /**
  * In memory filesystem implementation of file domain class.
