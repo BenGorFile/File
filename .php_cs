@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the BenGorFile library.
+ * This file is part of the BenGorFile package.
  *
  * (c) Beñat Espiña <benatespina@gmail.com>
  * (c) Gorka Laucirica <gorka.lauzirika@gmail.com>
@@ -11,7 +11,7 @@
  */
 
 $header = <<<'EOF'
-This file is part of the BenGorFile library.
+This file is part of the BenGorFile package.
 
 (c) Beñat Espiña <benatespina@gmail.com>
 (c) Gorka Laucirica <gorka.lauzirika@gmail.com>

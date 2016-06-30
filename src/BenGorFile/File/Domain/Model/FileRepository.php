@@ -1,0 +1,71 @@
+<?php
+
+/*
+ * This file is part of the BenGorFile package.
+ *
+ * (c) Beñat Espiña <benatespina@gmail.com>
+ * (c) Gorka Laucirica <gorka.lauzirika@gmail.com>
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+ */
+
+namespace BenGorFile\File\Domain\Model;
+
+/**
+ * File repository domain interface.
+ *
+ * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
+ */
+interface FileRepository
+{
+    /**
+     * Finds the file of given id.
+     *
+     * @param FileId $anId The file id
+     *
+     * @return File
+     */
+    public function fileOfId(FileId $anId);
+
+    /**
+     * Finds the file of given name.
+     *
+     * @param FileName      $aName       The file name
+     * @param FileExtension $anExtension The file extension
+     *
+     * @return File
+     */
+    public function fileOfName(FileName $aName, FileExtension $anExtension);
+
+    /**
+     * Finds the files of given extension.
+     *
+     * @param FileExtension $anExtension The file extension
+     *
+     * @return File[]
+     */
+    public function filesOfExtension(FileExtension $anExtension);
+
+    /**
+     * Persists the given file.
+     *
+     * @param File $aFile The file
+     */
+    public function persist(File $aFile);
+
+    /**
+     * Removes the given file.
+     *
+     * @param File $aFile The file
+     */
+    public function remove(File $aFile);
+
+    /**
+     * Counts the files.
+     *
+     * @return int
+     */
+    public function size();
+}

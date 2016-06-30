@@ -1,5 +1,5 @@
 {
-    "name": "bengor/file",
+    "name": "bengor-file/file",
     "description": "Lightweight file library developed using Domain-Driven Design",
     "keywords": ["file", "component", "ddd"],
     "license": "MIT",
@@ -17,13 +17,12 @@
         }
     ],
     "require": {
-        "php":                    "^5.5|^7.0",
-        "carlosbuenosvinos/ddd":  "^1.2",
-        "ramsey/uuid":            "^3.0"
+        "php": "^5.5 || ^7.0",
+        "ramsey/uuid": "^3.0"
     },
     "require-dev": {
-        "fabpot/php-cs-fixer":    "^1.11",
-        "phpspec/phpspec":        "^2.4"
+        "friendsofphp/php-cs-fixer": "^1.11",
+        "phpspec/phpspec": "^2.5"
     },
     "scripts": {
         "cs": [
@@ -32,15 +31,9 @@
         ],
         "test": "phpspec run"
     },
-    "suggest": {
-        "doctrine/orm": "Required to persist file references using Doctrine repository",
-        "knplabs/gaufrette": "Required to manage files using Gaufrette filesystem implementation",
-        "symfony/filesystem": "Required to use Symfony filesystem implementation",
-        "symfony/http-foundation": "Required to use Symfony implementation of UploadedFile"
-    },
     "autoload": {
         "psr-4": {
-            "BenGor\\File\\": "src/BenGor/File/"
+            "BenGorFile\\File\\": "src/BenGorFile/File/"
         },
         "exclude-from-classmap": ["/spec/"]
     },

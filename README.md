@@ -2,18 +2,16 @@
 > Lightweight file PHP library developed using Domain-Driven Design
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/c684216d-c5f3-4b70-a7cf-1ec2af743142/mini.png)](https://insight.sensiolabs.com/projects/c684216d-c5f3-4b70-a7cf-1ec2af743142)
-[![Build Status](https://travis-ci.org/BenGor/File.svg?branch=master)](https://travis-ci.org/BenGor/File)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BenGor/File/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BenGor/File/?branch=master)
-[![Total Downloads](https://poser.pugx.org/bengor/file/downloads)](https://packagist.org/packages/bengor/file)
-[![Latest Stable Version](https://poser.pugx.org/bengor/file/v/stable.svg)](https://packagist.org/packages/bengor/file)
-[![Latest Unstable Version](https://poser.pugx.org/bengor/file/v/unstable.svg)](https://packagist.org/packages/bengor/file)
+[![Build Status](https://travis-ci.org/BenGorFile/File.svg?branch=master)](https://travis-ci.org/BenGorFile/File)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/BenGorFile/File/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/BenGorFile/File/?branch=master)
+[![Total Downloads](https://poser.pugx.org/bengor-file/file/downloads)](https://packagist.org/packages/bengor-file/file)
+[![Latest Stable Version](https://poser.pugx.org/bengor-file/file/v/stable.svg)](https://packagist.org/packages/bengor-file/file)
+[![Latest Unstable Version](https://poser.pugx.org/bengor-file/file/v/unstable.svg)](https://packagist.org/packages/bengor-file/file)
 
 BenGorFile is **lightweight, flexible and easy to use** file management library. Using **Domain-Driven Design**
 this library offers a well tested and documented codebase with many common use cases already implemented, such as:
 
  * Upload file
- * Overwrite file
- * Remove file
 
 ##Requirements
 PHP >= 5.5
@@ -21,7 +19,7 @@ PHP >= 5.5
 ##Installation
 The easiest way to install this component is using [Composer][6]
 ```bash
-$ composer require bengor/file
+$ composer require bengor-file/file
 ```
 
 ##Documentation
@@ -61,7 +59,7 @@ This library is created by:
 **@gorkalaucirica** - [gorka.lauzirika@gmail.com](mailto:gorka.lauzirika@gmail.com)
 
 ##Licensing Options
-[![License](https://poser.pugx.org/bengor/file/license.svg)](https://github.com/BenGor/File/blob/master/LICENSE)
+[![License](https://poser.pugx.org/bengor-file/file/license.svg)](https://github.com/BenGorFile/File/blob/master/LICENSE)
 
 [1]: http://www.phpspec.net/
 [2]: http://symfony.com/doc/current/contributing/code/index.html
