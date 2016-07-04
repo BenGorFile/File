@@ -35,14 +35,14 @@ class File extends FileAggregateRoot
     protected $createdOn;
 
     /**
-     * The extension.
+     * The file mime type.
      *
-     * @var FileExtension
+     * @var FileMimeType
      */
-    protected $extension;
+    protected $mimeType;
 
     /**
-     * The name.
+     * The file name.
      *
      * @var FileName
      */
@@ -58,17 +58,17 @@ class File extends FileAggregateRoot
     /**
      * Constructor.
      *
-     * @param FileId        $anId        The id
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
+     * @param FileId       $anId      The id
+     * @param FileName     $aName     The file name
+     * @param FileMimeType $aMimeType The file mime type
      */
-    public function __construct(FileId $anId, FileName $aName, FileExtension $anExtension)
+    public function __construct(FileId $anId, FileName $aName, FileMimeType $aMimeType)
     {
         $this->id = $anId;
         $this->name = $aName;
+        $this->mimeType = $aMimeType;
         $this->createdOn = new \DateTimeImmutable();
         $this->updatedOn = new \DateTimeImmutable();
-        $this->setExtension($anExtension);
 
         $this->publish(new FileUploaded($this->id()));
     }
@@ -84,16 +84,6 @@ class File extends FileAggregateRoot
     }
 
     /**
-     * Gets the file extension.
-     *
-     * @return FileExtension
-     */
-    public function extension()
-    {
-        return $this->extension;
-    }
-
-    /**
      * Gets the created on.
      *
      * @return \DateTimeImmutable
@@ -101,6 +91,16 @@ class File extends FileAggregateRoot
     public function createdOn()
     {
         return $this->createdOn;
+    }
+
+    /**
+     * Gets the file mime type.
+     *
+     * @return FileMimeType
+     */
+    public function mimeType()
+    {
+        return $this->mimeType;
     }
 
     /**
@@ -124,48 +124,12 @@ class File extends FileAggregateRoot
     }
 
     /**
-     * Gets the available extension => mime-type pairs.
-     *
-     * Example of returned array structure:
-     *      [
-     *          'jpeg' => 'image/jpeg',
-     *          'jpg'  => 'image/jpeg',
-     *          'pdf'  => 'application/pdf',
-     *      ]
-     *
-     * This method is an extension point that it allows
-     * to limit the mime-types easily in the domain.
-     *
-     * @return array
-     */
-    public static function availableMimeTypes()
-    {
-        return FileExtension::mimeTypes();
-    }
-
-    /**
-     * Magic method that represents the file
-     * domain object in string format.
+     * Magic method that represents the file domain object in string format.
      *
      * @return string
      */
     public function __toString()
     {
-        return $this->name->name() . '.' . $this->extension->extension();
-    }
-
-    /**
-     * Sets the extension given if it appears between allowed extensions.
-     *
-     * @param FileExtension $anExtension The file extension
-     *
-     * @throws FileExtensionException when the extension does not support
-     */
-    protected function setExtension(FileExtension $anExtension)
-    {
-        if (false === array_key_exists($anExtension->extension(), static::availableMimeTypes())) {
-            throw FileExtensionException::doesNotSupport($anExtension);
-        }
-        $this->extension = $anExtension;
+        return $this->name->filename();
     }
 }

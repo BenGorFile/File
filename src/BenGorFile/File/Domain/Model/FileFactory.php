@@ -22,11 +22,11 @@ interface FileFactory
     /**
      * Registers the user with given id, email and password.
      *
-     * @param FileId        $anId        The file id
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
+     * @param FileId       $anId      The file id
+     * @param FileName     $aName     The file name
+     * @param FileMimeType $aMimeType The file mime type
      *
      * @return File
      */
-    public function build(FileId $anId, FileName $aName, FileExtension $anExtension);
+    public function build(FileId $anId, FileName $aName, FileMimeType $aMimeType);
 }

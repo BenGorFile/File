@@ -13,6 +13,7 @@
 namespace spec\BenGorFile\File\Domain\Model;
 
 use BenGorFile\File\Domain\Model\FileName;
+use BenGorFile\File\Domain\Model\FileNameException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -24,39 +25,44 @@ class FileNameSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
+        $this->beConstructedWith('test-name.pdf');
         $this->shouldHaveType(FileName::class);
     }
 
     function it_constructs_with_null_name()
     {
-        $this->name()->shouldNotBe(null);
-        $this->__toString()->shouldNotBe(null);
+        $this->beConstructedWith(null);
+        $this->shouldThrow(FileNameException::invalidName(null))->duringInstantiation();
     }
 
     function it_constructs_with_string_name()
     {
-        $this->beConstructedWith('test-name');
+        $this->beConstructedWith('test-name.pdf');
         $this->name()->shouldReturn('test-name');
-        $this->__toString()->shouldReturn('test-name');
+        $this->extension()->shouldReturn('pdf');
+        $this->filename()->shouldReturn('test-name.pdf');
+        $this->__toString()->shouldReturn('test-name.pdf');
     }
 
     function it_constructs_with_unsanitize_string_name()
     {
-        $this->beConstructedWith('the unsanitized file name `?¨');
+        $this->beConstructedWith('the unsanitized file name `?¨.pdf');
         $this->name()->shouldReturn('the-unsanitized-file-name');
-        $this->__toString()->shouldReturn('the-unsanitized-file-name');
+        $this->extension()->shouldReturn('pdf');
+        $this->filename()->shouldReturn('the-unsanitized-file-name.pdf');
+        $this->__toString()->shouldReturn('the-unsanitized-file-name.pdf');
     }
 
     function it_compares_names()
     {
-        $this->beConstructedWith('test-name');
+        $this->beConstructedWith('test-name.pdf');
 
-        $this->equals(new FileName('test-name'))->shouldReturn(true);
+        $this->equals(new FileName('test-name.pdf'))->shouldReturn(true);
     }
 
     function it_compares_different_names()
     {
-        $this->beConstructedWith('test-name');
-        $this->equals(new FileName('test-name-2'))->shouldReturn(false);
+        $this->beConstructedWith('test-name.pdf');
+        $this->equals(new FileName('test-name-2.pdf'))->shouldReturn(false);
     }
 }

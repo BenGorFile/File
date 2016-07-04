@@ -22,15 +22,24 @@ final class FileException extends \Exception
     /**
      * File does not exist exception.
      *
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
+     * @param FileName $aName The file name
      *
      * @return FileException
      */
-    public static function doesNotExist(FileName $aName, FileExtension $anExtension)
+    public static function doesNotExist(FileName $aName)
     {
-        return new static(sprintf(
-            'File with %s.%s filename does not exist', $aName->name(), $anExtension->extension()
-        ));
+        return new static(sprintf('File with %s filename does not exist', $aName->filename()));
+    }
+
+    /**
+     * File already exists exception.
+     *
+     * @param FileName $aName The file name
+     *
+     * @return FileException
+     */
+    public static function alreadyExists(FileName $aName)
+    {
+        return new static(sprintf('File with %s filename is alredy exists', $aName->filename()));
     }
 }

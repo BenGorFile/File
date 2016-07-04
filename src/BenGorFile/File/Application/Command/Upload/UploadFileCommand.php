@@ -12,7 +12,8 @@
 
 namespace BenGorFile\File\Application\Command\Upload;
 
-use BenGorFile\File\Domain\Model\UploadedFile;
+use BenGorFile\File\Domain\Model\FileMimeTypeException;
+use BenGorFile\File\Domain\Model\FileNameException;
 
 /**
  * Upload file command class.
@@ -30,22 +31,44 @@ class UploadFileCommand
     private $name;
 
     /**
-     * The uploaded file.
+     * The real content of file.
      *
-     * @var UploadedFile
+     * @var mixed
      */
     private $uploadedFile;
 
     /**
+     * The file mime type.
+     *
+     * @var string
+     */
+    private $mimeType;
+
+    /**
      * Constructor.
      *
-     * @param UploadedFile $anUploadedFile The uploaded file
-     * @param string       $aName          The file name
+     * @param string $aName          The file name
+     * @param mixed  $anUploadedFile The real content of file
+     * @param string $aMimeType      The file mime type
+     *
+     * @throws \InvalidArgumentException when the file content is null
+     * @throws FileMimeTypeException     when the mime type given is null
+     * @throws FileNameException         when the name given is null
      */
-    public function __construct(UploadedFile $anUploadedFile, $aName = null)
+    public function __construct($aName, $anUploadedFile, $aMimeType)
     {
+        if (null === $aName) {
+            throw FileNameException::invalidName($aName);
+        }
+        if (null === $anUploadedFile) {
+            throw new \InvalidArgumentException('The file content cannot be null');
+        }
+        if (null === $aMimeType) {
+            throw FileMimeTypeException::doesNotSupport($aMimeType);
+        }
         $this->name = $aName;
         $this->uploadedFile = $anUploadedFile;
+        $this->mimeType = $aMimeType;
     }
 
     /**
@@ -59,9 +82,19 @@ class UploadFileCommand
     }
 
     /**
-     * Gets the uploaded file.
+     * Gets the mime type.
      *
-     * @return UploadedFile
+     * @return string
+     */
+    public function mimeType()
+    {
+        return $this->mimeType;
+    }
+
+    /**
+     * Gets the real content of file.
+     *
+     * @return mixed
      */
     public function uploadedFile()
     {

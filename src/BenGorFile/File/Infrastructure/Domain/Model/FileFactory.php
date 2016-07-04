@@ -13,9 +13,9 @@
 namespace BenGorFile\File\Infrastructure\Domain\Model;
 
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileExtension;
 use BenGorFile\File\Domain\Model\FileFactory as BaseFileFactory;
 use BenGorFile\File\Domain\Model\FileId;
+use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
 
 /**
@@ -45,8 +45,8 @@ class FileFactory implements BaseFileFactory
     /**
      * {@inheritdoc}
      */
-    public function build(FileId $anId, FileName $aName, FileExtension $anExtension)
+    public function build(FileId $anId, FileName $aName, FileMimeType $aMimeType)
     {
-        return new $this->class($anId, $aName, $anExtension);
+        return new $this->class($anId, $aName, $aMimeType);
     }
 }

@@ -12,8 +12,6 @@
 
 namespace BenGorFile\File\Domain\Model;
 
-use Ramsey\Uuid\Uuid;
-
 /**
  * File name domain class.
  *
@@ -30,13 +28,26 @@ final class FileName
     private $name;
 
     /**
+     * The file extension.
+     *
+     * @var string
+     */
+    private $extension;
+
+    /**
      * Constructor.
      *
-     * @param string|null $aName The name
+     * @param string $aName The name
+     *
+     * @throws FileNameException when given file name is invalid
      */
-    public function __construct($aName = null)
+    public function __construct($aName)
     {
-        $this->name = null === $aName ? Uuid::uuid4()->toString() : $this->sanitize($aName);
+        if (null === $aName) {
+            throw FileNameException::invalidName($aName);
+        }
+        $this->name = $this->sanitize(pathinfo($aName, PATHINFO_FILENAME));
+        $this->extension = pathinfo($aName, PATHINFO_EXTENSION);
     }
 
     /**
@@ -50,6 +61,26 @@ final class FileName
     }
 
     /**
+     *  Gets the extension.
+     *
+     * @return string
+     */
+    public function extension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     *  Gets the extension.
+     *
+     * @return string
+     */
+    public function filename()
+    {
+        return $this->name . '.' . $this->extension;
+    }
+
+    /**
      * Method that checks if the name given is equal to the current.
      *
      * @param FileName $aName
@@ -58,7 +89,7 @@ final class FileName
      */
     public function equals(FileName $aName)
     {
-        return $this->name() === $aName->name();
+        return $this->filename() === $aName->filename();
     }
 
     /**
@@ -68,7 +99,7 @@ final class FileName
      */
     public function __toString()
     {
-        return $this->name();
+        return $this->filename();
     }
 
     /**

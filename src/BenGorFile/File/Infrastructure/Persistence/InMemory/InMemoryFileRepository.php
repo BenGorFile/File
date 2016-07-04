@@ -13,7 +13,6 @@
 namespace BenGorFile\File\Infrastructure\Persistence\InMemory;
 
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileExtension;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
@@ -65,28 +64,13 @@ final class InMemoryFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
-    public function fileOfName(FileName $aName, FileExtension $anExtension)
+    public function fileOfName(FileName $aName)
     {
         foreach ($this->files as $file) {
-            if (true === $file->name()->equals($aName) && true === $file->extension()->equals($anExtension)) {
+            if (true === $file->name()->equals($aName)) {
                 return $file;
             }
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filesOfExtension(FileExtension $anExtension)
-    {
-        $files = [];
-        foreach ($this->files as $file) {
-            if (true === $file->extension()->equals($anExtension)) {
-                $files[] = $file;
-            }
-        }
-
-        return $files;
     }
 
     /**

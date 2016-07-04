@@ -13,8 +13,8 @@
 namespace BenGorFile\File\Infrastructure\Persistence\Sql;
 
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileExtension;
 use BenGorFile\File\Domain\Model\FileId;
+use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
 use BenGorFile\File\Infrastructure\Domain\Model\FileEventBus;
@@ -69,29 +69,15 @@ final class SqlFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
-    public function fileOfName(FileName $aName, FileExtension $anExtension)
+    public function fileOfName(FileName $aName)
     {
         $statement = $this->execute('SELECT * FROM file WHERE name = :name AND extension = :extension', [
             'name'      => $aName->name(),
-            'extension' => $anExtension->extension(),
+            'extension' => $aName->extension(),
         ]);
         if ($row = $statement->fetch(\PDO::FETCH_ASSOC)) {
             return $this->buildFile($row);
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function filesOfExtension(FileExtension $anExtension)
-    {
-        $statement = $this->execute('SELECT * FROM file WHERE extension = :extension', [
-            'extension' => $anExtension->extension(),
-        ]);
-
-        return array_map(function ($row) {
-            return $this->buildFile($row);
-        }, $statement->fetchAll(\PDO::FETCH_ASSOC));
     }
 
     /**
@@ -138,6 +124,7 @@ CREATE TABLE file (
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     extension VARCHAR(100) NOT NULL,
+    mime_type VARCHAR(255) NOT NULL,
     created_on DATETIME NOT NULL,
     updated_on DATETIME NOT NULL
 )
@@ -168,11 +155,12 @@ SQL
      */
     private function insert(File $aFile)
     {
-        $sql = 'INSERT INTO file (id, name, extension, created_on, updated_on) VALUES (:id, :name, :extension, :createdOn, :updatedOn)';
+        $sql = 'INSERT INTO file (id, name, extension, mime_type, created_on, updated_on) VALUES (:id, :name, :extension, :mimeType, :createdOn, :updatedOn)';
         $this->execute($sql, [
             'id'        => $aFile->id()->id(),
             'name'      => $aFile->name()->name(),
-            'extension' => $aFile->extension()->extension(),
+            'extension' => $aFile->name()->extension(),
+            'mimeType'  => $aFile->mimeType(),
             'createdOn' => $aFile->createdOn()->format(self::DATE_FORMAT),
             'updatedOn' => $aFile->updatedOn()->format(self::DATE_FORMAT),
         ]);
@@ -185,17 +173,17 @@ SQL
      */
     private function update(File $aFile)
     {
-        $this->execute('UPDATE file SET name = :name, extension = :extension, updated_on = :updatedOn WHERE id = :id', [
+        $this->execute('UPDATE file SET name = :name, extension = :extension, mime_type = :mimeType, updated_on = :updatedOn WHERE id = :id', [
             'name'      => $aFile->name()->name(),
-            'extension' => $aFile->extension()->extension(),
+            'extension' => $aFile->name()->extension(),
+            'mimeType'  => $aFile->mimeType(),
             'updatedOn' => $aFile->updatedOn(),
             'id'        => $aFile->id()->id(),
         ]);
     }
 
     /**
-     * Wrapper that encapsulates the same
-     * logic about execute the query in PDO.
+     * Wrapper that encapsulates the same logic about execute the query in PDO.
      *
      * @param string $aSql       The SQL
      * @param array  $parameters Array which contains the parameters of SQL
@@ -221,8 +209,8 @@ SQL
     {
         $file = new File(
             new FileId($row['id']),
-            new FileName($row['name']),
-            new FileExtension($row['extension'])
+            new FileName($row['name'] . '.' . $row['extension']),
+            new FileMimeType($row['mime_type'])
         );
 
         $createdOn = new \DateTimeImmutable($row['created_on']);

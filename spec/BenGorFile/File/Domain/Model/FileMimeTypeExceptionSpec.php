@@ -12,20 +12,19 @@
 
 namespace spec\BenGorFile\File\Domain\Model;
 
-use BenGorFile\File\Domain\Model\FileExtension;
-use BenGorFile\File\Domain\Model\FileExtensionException;
+use BenGorFile\File\Domain\Model\FileMimeTypeException;
 use PhpSpec\ObjectBehavior;
 
 /**
- * Spec file of FileExtensionException class.
+ * Spec file of FileMimeTypeException class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-class FileExtensionExceptionSpec extends ObjectBehavior
+class FileMimeTypeExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(FileExtensionException::class);
+        $this->shouldHaveType(FileMimeTypeException::class);
     }
 
     function it_extends_exception()
@@ -33,17 +32,8 @@ class FileExtensionExceptionSpec extends ObjectBehavior
         $this->shouldHaveType(\Exception::class);
     }
 
-    function it_constructs_does_not_exist()
-    {
-        $this::doesNotExist(
-            new FileExtension('pdf')
-        )->shouldReturnAnInstanceOf(FileExtensionException::class);
-    }
-
     function it_constructs_does_not_support()
     {
-        $this::doesNotSupport(
-            new FileExtension('pdf')
-        )->shouldReturnAnInstanceOf(FileExtensionException::class);
+        $this::doesNotSupport('application/pdfff')->shouldReturnAnInstanceOf(FileMimeTypeException::class);
     }
 }

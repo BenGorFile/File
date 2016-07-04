@@ -32,21 +32,11 @@ interface FileRepository
     /**
      * Finds the file of given name.
      *
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
+     * @param FileName $aName The file name
      *
      * @return File
      */
-    public function fileOfName(FileName $aName, FileExtension $anExtension);
-
-    /**
-     * Finds the files of given extension.
-     *
-     * @param FileExtension $anExtension The file extension
-     *
-     * @return File[]
-     */
-    public function filesOfExtension(FileExtension $anExtension);
+    public function fileOfName(FileName $aName);
 
     /**
      * Persists the given file.

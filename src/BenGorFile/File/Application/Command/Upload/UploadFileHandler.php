@@ -12,13 +12,13 @@
 
 namespace BenGorFile\File\Application\Command\Upload;
 
-use BenGorFile\File\Domain\Model\FileExtension;
+use BenGorFile\File\Domain\Model\FileException;
 use BenGorFile\File\Domain\Model\FileFactory;
 use BenGorFile\File\Domain\Model\FileId;
+use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
 use BenGorFile\File\Domain\Model\Filesystem;
-use BenGorFile\File\Domain\Model\UploadedFileException;
 
 /**
  * Upload file handler class.
@@ -68,20 +68,17 @@ class UploadFileHandler
      *
      * @param UploadFileCommand $aCommand The command
      *
-     * @throws UploadedFileException when
+     * @throws FileException when file is already exists
      */
     public function __invoke(UploadFileCommand $aCommand)
     {
-        $uploadedFile = $aCommand->uploadedFile();
         $name = new FileName($aCommand->name());
-        $extension = new FileExtension($uploadedFile->extension());
-
-        if (true === $this->filesystem->has($name, $extension)) {
-            throw UploadedFileException::alreadyExists($name, $extension);
+        if (true === $this->filesystem->has($name)) {
+            throw FileException::alreadyExists($name);
         }
 
-        $this->filesystem->write($name, $extension, $uploadedFile->content());
-        $file = $this->factory->build(new FileId(), $name, $extension);
+        $this->filesystem->write($name, $aCommand->uploadedFile());
+        $file = $this->factory->build(new FileId(), $name, new FileMimeType($aCommand->mimeType()));
 
         $this->repository->persist($file);
     }

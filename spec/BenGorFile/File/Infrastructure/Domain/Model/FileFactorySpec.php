@@ -13,9 +13,9 @@
 namespace spec\BenGorFile\File\Infrastructure\Domain\Model;
 
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileExtension;
 use BenGorFile\File\Domain\Model\FileFactory as BaseFileFactory;
 use BenGorFile\File\Domain\Model\FileId;
+use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Infrastructure\Domain\Model\FileFactory;
 use PhpSpec\ObjectBehavior;
@@ -45,9 +45,7 @@ class FileFactorySpec extends ObjectBehavior
     function it_builds_a_file_instance()
     {
         $this->build(
-            new FileId('dummy-file-id'),
-            new FileName('dummy-file-name'),
-            new FileExtension('pdf')
+            new FileId('dummy-file-id'), new FileName('dummy-file-name'), new FileMimeType('application/pdf')
         )->shouldReturnAnInstanceOf(File::class);
     }
 }

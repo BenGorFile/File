@@ -15,14 +15,13 @@ namespace spec\BenGorFile\File\Application\Command\Upload;
 use BenGorFile\File\Application\Command\Upload\UploadFileCommand;
 use BenGorFile\File\Application\Command\Upload\UploadFileHandler;
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileExtension;
+use BenGorFile\File\Domain\Model\FileException;
 use BenGorFile\File\Domain\Model\FileFactory;
 use BenGorFile\File\Domain\Model\FileId;
+use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
 use BenGorFile\File\Domain\Model\Filesystem;
-use BenGorFile\File\Domain\Model\UploadedFileException;
-use BenGorFile\File\Infrastructure\UploadedFile\DummyUploadedFile;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -51,33 +50,28 @@ class UploadFileHandlerSpec extends ObjectBehavior
         FileFactory $factory,
         File $file
     ) {
-        $uploadedFile = new DummyUploadedFile('test-content', 'original-name', 'pdf');
-        $command->name()->shouldBeCalled()->willReturn('dummy-file-name');
-        $command->uploadedFile()->shouldBeCalled()->willReturn($uploadedFile);
-        $name = new FileName('dummy-file-name');
-        $extension = new FileExtension('pdf');
+        $command->name()->shouldBeCalled()->willReturn('dummy-file-name.pdf');
+        $command->uploadedFile()->shouldBeCalled()->willReturn('test-content');
+        $command->mimeType()->shouldBeCalled()->willReturn('application/pdf');
+        $name = new FileName('dummy-file-name.pdf');
+        $mimeType = new FileMimeType('application/pdf');
 
-        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(false);
+        $filesystem->has($name)->shouldBeCalled()->willReturn(false);
 
-        $filesystem->write($name, $extension, 'test-content')->shouldBeCalled();
-        $factory->build(Argument::type(FileId::class), $name, $extension)->shouldBeCalled()->willReturn($file);
+        $filesystem->write($name, 'test-content')->shouldBeCalled();
+        $factory->build(Argument::type(FileId::class), $name, $mimeType)->shouldBeCalled()->willReturn($file);
         $repository->persist($file)->shouldBeCalled();
 
         $this->__invoke($command);
     }
 
-    function it_does_not_handle_because_already_exists_an_uploaded_file(
-        Filesystem $filesystem,
-        UploadFileCommand $command
-    ) {
-        $uploadedFile = new DummyUploadedFile('test-content', 'original-name', 'pdf');
-        $command->name()->shouldBeCalled()->willReturn('dummy-file-name');
-        $command->uploadedFile()->shouldBeCalled()->willReturn($uploadedFile);
-        $name = new FileName('dummy-file-name');
-        $extension = new FileExtension('pdf');
+    function it_does_not_handle_because_file_already_exists(Filesystem $filesystem, UploadFileCommand $command)
+    {
+        $command->name()->shouldBeCalled()->willReturn('dummy-file-name.pdf');
+        $name = new FileName('dummy-file-name.pdf');
 
-        $filesystem->has($name, $extension)->shouldBeCalled()->willReturn(true);
+        $filesystem->has($name)->shouldBeCalled()->willReturn(true);
 
-        $this->shouldThrow(UploadedFileException::alreadyExists($name, $extension))->during__invoke($command);
+        $this->shouldThrow(FileException::alreadyExists($name))->during__invoke($command);
     }
 }

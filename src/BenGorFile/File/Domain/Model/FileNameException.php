@@ -13,31 +13,22 @@
 namespace BenGorFile\File\Domain\Model;
 
 /**
- * Uploaded file domain interface.
+ * Exceptions about file name domain class.
  *
- * @author Beñat Espiña <benatespina@gmail.com>
  * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
+ * @author Beñat Espiña <benatespina@gmail.com>
  */
-interface UploadedFile
+final class FileNameException extends \Exception
 {
     /**
-     * Gets the content.
+     * File name is invalid exception.
      *
-     * @return mixed
-     */
-    public function content();
-
-    /**
-     * Gets the extension.
+     * @param string $aFileName The file name
      *
-     * @return string
+     * @return FileNameException
      */
-    public function extension();
-
-    /**
-     * Gets the name.
-     *
-     * @return string
-     */
-    public function name();
+    public static function invalidName($aFileName)
+    {
+        return new static(sprintf('File name with %s is invalid', $aFileName));
+    }
 }

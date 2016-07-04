@@ -23,43 +23,38 @@ interface Filesystem
     /**
      * Removes the file of given filename.
      *
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
+     * @param FileName $aName The file name
      */
-    public function delete(FileName $aName, FileExtension $anExtension);
+    public function delete(FileName $aName);
 
     /**
      * Checks if the file of given filename exists.
      *
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
+     * @param FileName $aName The file name
      *
      * @return bool
      */
-    public function has(FileName $aName, FileExtension $anExtension);
+    public function has(FileName $aName);
 
     /**
      * Overwrites the file of filename given with a given content.
      *
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
-     * @param string        $aContent    The content
+     * @param FileName $aName    The file name
+     * @param string   $aContent The content
      */
-    public function overwrite(FileName $aName, FileExtension $anExtension, $aContent);
+    public function overwrite(FileName $aName, $aContent);
 
     /**
      * Reads the file content of given filename.
      *
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
+     * @param FileName $aName The file name
      *
      * @return string
      */
-    public function read(FileName $aName, FileExtension $anExtension);
+    public function read(FileName $aName);
 
     /**
-     * Renames the file of given old file
-     * name with the given new file name.
+     * Renames the file of given old file name with the given new file name.
      *
      * @param FileName $anOldName The actual file name
      * @param FileName $aNewName  The new file name
@@ -69,9 +64,8 @@ interface Filesystem
     /**
      * Writes a new file with filename and content given.
      *
-     * @param FileName      $aName       The file name
-     * @param FileExtension $anExtension The file extension
-     * @param string        $aContent    The content
+     * @param FileName $aName    The file name
+     * @param string   $aContent The content
      */
-    public function write(FileName $aName, FileExtension $anExtension, $aContent);
+    public function write(FileName $aName, $aContent);
 }

@@ -13,8 +13,8 @@
 namespace spec\BenGorFile\File\Domain\Model;
 
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileExtension;
 use BenGorFile\File\Domain\Model\FileId;
+use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
 use PhpSpec\ObjectBehavior;
 
@@ -28,10 +28,18 @@ class FileSpec extends ObjectBehavior
 {
     function it_uploads()
     {
-        $this->beConstructedWith(new FileId('dummy-id'), new FileName('dummy-file-name'), new FileExtension('pdf'));
+        $this->beConstructedWith(
+            new FileId('dummy-id'),
+            new FileName('dummy-file-name.pdf'),
+            new FileMimeType('application/pdf')
+        );
         $this->shouldHaveType(File::class);
         $this->id()->shouldReturnAnInstanceOf(FileId::class);
         $this->id()->id()->shouldReturn('dummy-id');
+        $this->name()->shouldReturnAnInstanceOf(FileName::class);
+        $this->name()->filename()->shouldReturn('dummy-file-name.pdf');
+        $this->mimeType()->shouldReturnAnInstanceOf(FileMimeType::class);
+        $this->mimeType()->mimeType()->shouldReturn('application/pdf');
         $this->createdOn()->shouldReturnAnInstanceOf(\DateTimeImmutable::class);
         $this->updatedOn()->shouldReturnAnInstanceOf(\DateTimeImmutable::class);
         $this->__toString('dummy-file-name.pdf');
