@@ -13,6 +13,7 @@
 namespace spec\BenGorFile\File\Domain\Model;
 
 use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileName;
 use PhpSpec\ObjectBehavior;
 
@@ -41,5 +42,15 @@ class FileExceptionSpec extends ObjectBehavior
     function it_constructs_already_exists()
     {
         $this::alreadyExists(new FileName('dummy-file-name.pdf'))->shouldReturnAnInstanceOf(FileException::class);
+    }
+
+    function it_constructs_id_does_not_exist()
+    {
+        $this::idDoesNotExist(new FileId('file-id'))->shouldReturnAnInstanceOf(FileException::class);
+    }
+
+    function it_constructs_id_already_exists()
+    {
+        $this::idAlreadyExists(new FileId('file-id'))->shouldReturnAnInstanceOf(FileException::class);
     }
 }

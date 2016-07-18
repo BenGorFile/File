@@ -40,6 +40,30 @@ final class FileException extends \Exception
      */
     public static function alreadyExists(FileName $aName)
     {
-        return new static(sprintf('File with %s filename is alredy exists', $aName->filename()));
+        return new static(sprintf('File with %s filename is already exists', $aName->filename()));
+    }
+
+    /**
+     * File id does not exist exception.
+     *
+     * @param FileId $anId The file id
+     *
+     * @return FileException
+     */
+    public static function idDoesNotExist(FileId $anId)
+    {
+        return new static(sprintf('File with %s id does not exist', $anId->id()));
+    }
+
+    /**
+     * File id already exists exception.
+     *
+     * @param FileId $anId The file id
+     *
+     * @return FileException
+     */
+    public static function idAlreadyExists(FileId $anId)
+    {
+        return new static(sprintf('File with %s id is already exists', $anId->id()));
     }
 }

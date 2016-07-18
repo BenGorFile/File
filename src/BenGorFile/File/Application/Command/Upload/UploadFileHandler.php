@@ -72,13 +72,18 @@ class UploadFileHandler
      */
     public function __invoke(UploadFileCommand $aCommand)
     {
+        $id = new FileId($aCommand->id());
+        $file = $this->repository->fileOfId($id);
+        if (null !== $file) {
+            throw FileException::idAlreadyExists($id);
+        }
         $name = new FileName($aCommand->name());
         if (true === $this->filesystem->has($name)) {
             throw FileException::alreadyExists($name);
         }
 
         $this->filesystem->write($name, $aCommand->uploadedFile());
-        $file = $this->factory->build(new FileId(), $name, new FileMimeType($aCommand->mimeType()));
+        $file = $this->factory->build($id, $name, new FileMimeType($aCommand->mimeType()));
 
         $this->repository->persist($file);
     }

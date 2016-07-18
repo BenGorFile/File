@@ -20,7 +20,7 @@ namespace BenGorFile\File\Domain\Model;
 interface FileFactory
 {
     /**
-     * Registers the user with given id, email and password.
+     * Registers the file with given id, email and password.
      *
      * @param FileId       $anId      The file id
      * @param FileName     $aName     The file name

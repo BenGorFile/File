@@ -14,6 +14,7 @@ namespace BenGorFile\File\Application\Command\Upload;
 
 use BenGorFile\File\Domain\Model\FileMimeTypeException;
 use BenGorFile\File\Domain\Model\FileNameException;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Upload file command class.
@@ -23,6 +24,13 @@ use BenGorFile\File\Domain\Model\FileNameException;
  */
 class UploadFileCommand
 {
+    /**
+     * The file id.
+     *
+     * @var string
+     */
+    private $id;
+
     /**
      * The file name.
      *
@@ -47,15 +55,15 @@ class UploadFileCommand
     /**
      * Constructor.
      *
-     * @param string $aName          The file name
-     * @param mixed  $anUploadedFile The real content of file
-     * @param string $aMimeType      The file mime type
+     * @param string      $aName          The file name
+     * @param mixed       $anUploadedFile The real content of file
+     * @param string      $aMimeType      The file mime type
+     * @param string|null $anId           The file id
      *
-     * @throws \InvalidArgumentException when the file content is null
-     * @throws FileMimeTypeException     when the mime type given is null
-     * @throws FileNameException         when the name given is null
+     * @throws FileMimeTypeException when the mime type given is null
+     * @throws FileNameException     when the name given is null
      */
-    public function __construct($aName, $anUploadedFile, $aMimeType)
+    public function __construct($aName, $anUploadedFile, $aMimeType, $anId = null)
     {
         if (null === $aName) {
             throw FileNameException::invalidName($aName);
@@ -66,9 +74,20 @@ class UploadFileCommand
         if (null === $aMimeType) {
             throw FileMimeTypeException::doesNotSupport($aMimeType);
         }
+        $this->id = null === $anId ? Uuid::uuid4()->toString() : $anId;
         $this->name = $aName;
         $this->uploadedFile = $anUploadedFile;
         $this->mimeType = $aMimeType;
+    }
+
+    /**
+     * Gets the file id.
+     *
+     * @return string
+     */
+    public function id()
+    {
+        return $this->id;
     }
 
     /**
