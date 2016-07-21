@@ -66,9 +66,9 @@ class File extends FileAggregateRoot
     {
         $this->id = $anId;
         $this->name = $aName;
-        $this->mimeType = $aMimeType;
         $this->createdOn = new \DateTimeImmutable();
         $this->updatedOn = new \DateTimeImmutable();
+        $this->setMimeType($aMimeType);
 
         $this->publish(new FileUploaded($this->id()));
     }
@@ -131,5 +131,33 @@ class File extends FileAggregateRoot
     public function __toString()
     {
         return $this->name->filename();
+    }
+
+    /**
+     * Gets the available mime types in scalar type.
+     *
+     * This method is an extension point that it allows
+     * to add more mime types easily in the domain.
+     *
+     * @return array
+     */
+    protected function availableMimeTypes()
+    {
+        return FileMimeType::mimeTypes();
+    }
+
+    /**
+     * Sets the given mime type in the file scope.
+     *
+     * @param FileMimeType $aMimeType The mime type
+     *
+     * @throws FileMimeTypeException when the given mime type is not support for the file
+     */
+    private function setMimeType(FileMimeType $aMimeType)
+    {
+        if (!in_array($aMimeType->mimeType(), $this->availableMimeTypes(), true)) {
+            throw FileMimeTypeException::doesNotSupport($aMimeType->mimeType());
+        }
+        $this->mimeType = $aMimeType;
     }
 }

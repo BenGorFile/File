@@ -26,7 +26,7 @@ use PhpSpec\ObjectBehavior;
  */
 class FileSpec extends ObjectBehavior
 {
-    function it_uploads()
+    function it_constructs()
     {
         $this->beConstructedWith(
             new FileId('dummy-id'),
