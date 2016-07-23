@@ -12,6 +12,8 @@ BenGorFile is **lightweight, flexible and easy to use** file management library.
 this library offers a well tested and documented codebase with many common use cases already implemented, such as:
 
  * Upload file
+ * Overwrite file
+ * Remove file
 
 ##Requirements
 PHP >= 5.5
