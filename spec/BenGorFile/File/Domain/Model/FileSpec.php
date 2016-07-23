@@ -48,4 +48,22 @@ class FileSpec extends ObjectBehavior
         $this->eraseEvents();
         $this->events()->shouldHaveCount(0);
     }
+
+    function it_overwrites()
+    {
+        $this->beConstructedWith(
+            new FileId('dummy-id'),
+            new FileName('dummy-file-name.pdf'),
+            new FileMimeType('application/pdf')
+        );
+        $this->name()->filename()->shouldReturn('dummy-file-name.pdf');
+        $this->mimeType()->mimeType()->shouldReturn('application/pdf');
+        $this->events()->shouldHaveCount(1);
+
+        $this->overwrite(new FileName('other-file.png'), new FileMimeType('image/png'));
+
+        $this->name()->filename()->shouldReturn('other-file.png');
+        $this->mimeType()->mimeType()->shouldReturn('image/png');
+        $this->events()->shouldHaveCount(2);
+    }
 }

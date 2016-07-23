@@ -114,6 +114,21 @@ class File extends FileAggregateRoot
     }
 
     /**
+     * Overwrites the file.
+     *
+     * @param FileName     $aName     The file name
+     * @param FileMimeType $aMimeType The file mime type
+     */
+    public function overwrite(FileName $aName, FileMimeType $aMimeType)
+    {
+        $this->name = $aName;
+        $this->mimeType = $aMimeType;
+        $this->updatedOn = new \DateTimeImmutable();
+
+        $this->publish(new FileOverwritten($this->id()));
+    }
+
+    /**
      * Gets the updated on.
      *
      * @return \DateTimeImmutable
