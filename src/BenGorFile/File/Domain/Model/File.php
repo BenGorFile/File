@@ -129,6 +129,14 @@ class File extends FileAggregateRoot
     }
 
     /**
+     * Removes the file.
+     */
+    public function remove()
+    {
+        $this->publish(new FileRemoved($this->id()));
+    }
+
+    /**
      * Gets the updated on.
      *
      * @return \DateTimeImmutable

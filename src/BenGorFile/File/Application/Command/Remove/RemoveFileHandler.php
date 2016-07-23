@@ -10,22 +10,20 @@
  * file that was distributed with this source code.
  */
 
-namespace BenGorFile\File\Application\Command\Overwrite;
+namespace BenGorFile\File\Application\Command\Remove;
 
 use BenGorFile\File\Domain\Model\FileException;
 use BenGorFile\File\Domain\Model\FileId;
-use BenGorFile\File\Domain\Model\FileMimeType;
-use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
 use BenGorFile\File\Domain\Model\Filesystem;
 
 /**
- * Overwrite file handler class.
+ * Remove file handler class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-class OverwriteFileHandler
+class RemoveFileHandler
 {
     /**
      * The filesystem.
@@ -56,23 +54,20 @@ class OverwriteFileHandler
     /**
      * Handles the given command.
      *
-     * @param OverwriteFileCommand $aCommand The command
+     * @param RemoveFileCommand $aCommand The command
      *
-     * @throws FileException when file does not exist
+     * @throws FileException when file is already exists
      */
-    public function __invoke(OverwriteFileCommand $aCommand)
+    public function __invoke(RemoveFileCommand $aCommand)
     {
         $id = new FileId($aCommand->id());
-        $name = new FileName($aCommand->name());
 
         $file = $this->repository->fileOfId($id);
         if (null === $file) {
             throw FileException::idDoesNotExist($id);
         }
         $this->filesystem->delete($file->name());
-        $file->overwrite($name, new FileMimeType($aCommand->mimeType()));
-        $this->filesystem->write($name, $aCommand->uploadedFile());
 
-        $this->repository->persist($file);
+        $this->repository->remove($file);
     }
 }

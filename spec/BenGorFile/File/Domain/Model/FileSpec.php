@@ -66,4 +66,17 @@ class FileSpec extends ObjectBehavior
         $this->mimeType()->mimeType()->shouldReturn('image/png');
         $this->events()->shouldHaveCount(2);
     }
+
+    function it_removes()
+    {
+        $this->beConstructedWith(
+            new FileId('dummy-id'),
+            new FileName('dummy-file-name.pdf'),
+            new FileMimeType('application/pdf')
+        );
+        $this->events()->shouldHaveCount(1);
+
+        $this->remove();
+        $this->events()->shouldHaveCount(2);
+    }
 }
