@@ -206,7 +206,7 @@ final class FileName
         ];
 
         $normalized = strtolower(strtr($aName, $characters));
-        $cleaned = preg_replace($unwantedChars = '/([^a-z0-9]|-)+/', '-', $normalized);
+        $cleaned = preg_replace('/([^a-z0-9]|-)+/', '-', $normalized);
 
         return trim($cleaned, '-');
     }
