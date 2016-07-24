@@ -39,6 +39,13 @@ interface FileRepository
     public function fileOfName(FileName $aName);
 
     /**
+     * Gets all files.
+     *
+     * @return File[]
+     */
+    public function all();
+
+    /**
      * Persists the given file.
      *
      * @param File $aFile The file

@@ -83,6 +83,19 @@ final class SqlFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
+    public function all()
+    {
+        $statement = $this->execute('SELECT * FROM file');
+        if ($rows = $statement->fetch(\PDO::FETCH_ASSOC)) {
+            return array_map(function ($row) {
+                return $this->buildFile($row);
+            }, $rows);
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function persist(File $aFile)
     {
         ($this->exist($aFile)) ? $this->update($aFile) : $this->insert($aFile);

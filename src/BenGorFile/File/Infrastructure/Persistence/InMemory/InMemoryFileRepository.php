@@ -76,6 +76,14 @@ final class InMemoryFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
+    public function all()
+    {
+        return $this->files;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function persist(File $aFile)
     {
         $this->files[$aFile->id()->id()] = $aFile;
