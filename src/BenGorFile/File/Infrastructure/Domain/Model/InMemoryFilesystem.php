@@ -47,7 +47,7 @@ class InMemoryFilesystem implements Filesystem
                 unset($this->files[$key]);
                 break;
             }
-        };
+        }
     }
 
     /**
@@ -59,7 +59,7 @@ class InMemoryFilesystem implements Filesystem
             if ($file['filename'] === $aName->filename()) {
                 return true;
             }
-        };
+        }
 
         return false;
     }
@@ -73,7 +73,7 @@ class InMemoryFilesystem implements Filesystem
             if ($file['filename'] === $aName->filename()) {
                 $this->files[$key]['content'] = $aContent;
             }
-        };
+        }
     }
 
     /**
@@ -85,7 +85,7 @@ class InMemoryFilesystem implements Filesystem
             if ($file['filename'] === $aName->filename()) {
                 return $this->files[$key];
             }
-        };
+        }
     }
 
     /**
@@ -98,7 +98,7 @@ class InMemoryFilesystem implements Filesystem
                 $this->files[$key]['filename'] = $aNewName->filename();
                 break;
             }
-        };
+        }
     }
 
     /**
@@ -110,7 +110,7 @@ class InMemoryFilesystem implements Filesystem
             if ($file['filename'] === $aName->filename()) {
                 return;
             }
-        };
+        }
         $this->files[] = ['filename' => $aName->filename(), 'content' => $aContent];
     }
 }

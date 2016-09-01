@@ -137,6 +137,25 @@ class File extends FileAggregateRoot
     }
 
     /**
+     * Renames the file.
+     *
+     * @param FileName $aName The file name
+     *
+     * @throws FileNameException when the file name extension is different of the current
+     */
+    public function rename(FileName $aName)
+    {
+        if ($aName->extension() !== $this->name()->extension()) {
+            throw FileNameException::invalidName($aName);
+        }
+
+        $this->name = $aName;
+        $this->updatedOn = new \DateTimeImmutable();
+
+        $this->publish(new FileRenamed($this->id()));
+    }
+
+    /**
      * Gets the updated on.
      *
      * @return \DateTimeImmutable

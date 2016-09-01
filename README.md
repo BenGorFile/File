@@ -14,6 +14,7 @@ this library offers a well tested and documented codebase with many common use c
  * Upload file
  * Overwrite file
  * Remove file
+ * Rename file
 
 ##Requirements
 PHP >= 5.5

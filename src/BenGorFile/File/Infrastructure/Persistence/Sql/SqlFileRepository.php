@@ -131,7 +131,7 @@ final class SqlFileRepository implements FileRepository
      */
     public function initSchema()
     {
-        $this->pdo->exec(<<<SQL
+        $this->pdo->exec(<<<'SQL'
 DROP TABLE IF EXISTS file;
 CREATE TABLE file (
     id CHAR(36) PRIMARY KEY,

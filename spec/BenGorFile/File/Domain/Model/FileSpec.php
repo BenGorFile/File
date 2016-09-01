@@ -16,6 +16,7 @@ use BenGorFile\File\Domain\Model\File;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
+use BenGorFile\File\Domain\Model\FileNameException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -26,13 +27,17 @@ use PhpSpec\ObjectBehavior;
  */
 class FileSpec extends ObjectBehavior
 {
-    function it_constructs()
+    function let()
     {
         $this->beConstructedWith(
             new FileId('dummy-id'),
             new FileName('dummy-file-name.pdf'),
             new FileMimeType('application/pdf')
         );
+    }
+
+    function it_constructs()
+    {
         $this->shouldHaveType(File::class);
         $this->id()->shouldReturnAnInstanceOf(FileId::class);
         $this->id()->id()->shouldReturn('dummy-id');
@@ -51,11 +56,6 @@ class FileSpec extends ObjectBehavior
 
     function it_overwrites()
     {
-        $this->beConstructedWith(
-            new FileId('dummy-id'),
-            new FileName('dummy-file-name.pdf'),
-            new FileMimeType('application/pdf')
-        );
         $this->name()->filename()->shouldReturn('dummy-file-name.pdf');
         $this->mimeType()->mimeType()->shouldReturn('application/pdf');
         $this->events()->shouldHaveCount(1);
@@ -69,14 +69,41 @@ class FileSpec extends ObjectBehavior
 
     function it_removes()
     {
-        $this->beConstructedWith(
-            new FileId('dummy-id'),
-            new FileName('dummy-file-name.pdf'),
-            new FileMimeType('application/pdf')
-        );
         $this->events()->shouldHaveCount(1);
 
         $this->remove();
         $this->events()->shouldHaveCount(2);
+    }
+
+    function it_renames()
+    {
+        $name = new FileName('dummy-file-name.pdf');
+        $name2 = new FileName('dummy-file-name2.pdf');
+
+        $this->beConstructedWith(
+            new FileId('dummy-id'),
+            $name,
+            new FileMimeType('application/pdf')
+        );
+
+        $this->name()->shouldReturn($name);
+        $this->rename($name2);
+        $this->name()->shouldReturn($name2);
+    }
+
+    function it_does_not_rename_when_the_extension_is_different()
+    {
+        $name = new FileName('dummy-file-name.pdf');
+        $name2 = new FileName('dummy-file-name2.jpg');
+
+        $this->beConstructedWith(
+            new FileId('dummy-id'),
+            $name,
+            new FileMimeType('application/pdf')
+        );
+
+        $this->name()->shouldReturn($name);
+
+        $this->shouldThrow(FileNameException::class)->duringRename($name2);
     }
 }
