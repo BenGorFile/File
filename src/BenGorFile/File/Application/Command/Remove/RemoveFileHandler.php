@@ -12,7 +12,7 @@
 
 namespace BenGorFile\File\Application\Command\Remove;
 
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileRepository;
 use BenGorFile\File\Domain\Model\Filesystem;
@@ -56,7 +56,7 @@ class RemoveFileHandler
      *
      * @param RemoveFileCommand $aCommand The command
      *
-     * @throws FileException when file is already exists
+     * @throws FileDoesNotExistException when file is already exists
      */
     public function __invoke(RemoveFileCommand $aCommand)
     {
@@ -64,7 +64,7 @@ class RemoveFileHandler
 
         $file = $this->repository->fileOfId($id);
         if (null === $file) {
-            throw FileException::idDoesNotExist($id);
+            throw new FileDoesNotExistException();
         }
         $this->filesystem->delete($file->name());
 

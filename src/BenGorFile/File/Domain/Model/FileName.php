@@ -39,12 +39,12 @@ final class FileName
      *
      * @param string $aName The name
      *
-     * @throws FileNameException when given file name is invalid
+     * @throws FileNameInvalidException when given file name is invalid
      */
     public function __construct($aName)
     {
         if (null === $aName) {
-            throw FileNameException::invalidName($aName);
+            throw new FileNameInvalidException();
         }
         $this->name = $this->sanitize(pathinfo($aName, PATHINFO_FILENAME));
         $this->extension = pathinfo($aName, PATHINFO_EXTENSION);

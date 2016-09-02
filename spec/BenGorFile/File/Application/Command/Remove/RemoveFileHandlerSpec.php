@@ -15,7 +15,7 @@ namespace spec\BenGorFile\File\Application\Command\Remove;
 use BenGorFile\File\Application\Command\Remove\RemoveFileCommand;
 use BenGorFile\File\Application\Command\Remove\RemoveFileHandler;
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
@@ -65,6 +65,6 @@ class RemoveFileHandlerSpec extends ObjectBehavior
         $id = new FileId('file-id');
         $repository->fileOfId($id)->shouldBeCalled()->willReturn(null);
 
-        $this->shouldThrow(FileException::idDoesNotExist($id))->during__invoke($command);
+        $this->shouldThrow(FileDoesNotExistException::class)->during__invoke($command);
     }
 }

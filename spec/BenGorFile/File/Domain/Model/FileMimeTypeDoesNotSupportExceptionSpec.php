@@ -12,28 +12,23 @@
 
 namespace spec\BenGorFile\File\Domain\Model;
 
-use BenGorFile\File\Domain\Model\FileMimeTypeException;
+use BenGorFile\File\Domain\Model\FileMimeTypeDoesNotSupportException;
 use PhpSpec\ObjectBehavior;
 
 /**
- * Spec file of FileMimeTypeException class.
+ * Spec file of FileMimeTypeDoesNotSupportException class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-class FileMimeTypeExceptionSpec extends ObjectBehavior
+class FileMimeTypeDoesNotSupportExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(FileMimeTypeException::class);
+        $this->shouldHaveType(FileMimeTypeDoesNotSupportException::class);
     }
 
     function it_extends_exception()
     {
         $this->shouldHaveType(\Exception::class);
-    }
-
-    function it_constructs_does_not_support()
-    {
-        $this::doesNotSupport('application/pdfff')->shouldReturnAnInstanceOf(FileMimeTypeException::class);
     }
 }

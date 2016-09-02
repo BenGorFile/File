@@ -12,28 +12,23 @@
 
 namespace spec\BenGorFile\File\Domain\Model;
 
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileAlreadyExistsException;
 use PhpSpec\ObjectBehavior;
 
 /**
- * Spec file of FileNameException class.
+ * Spec file of FileAlreadyExistsException class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-class FileNameExceptionSpec extends ObjectBehavior
+class FileAlreadyExistsExceptionSpec extends ObjectBehavior
 {
     function it_is_initializable()
     {
-        $this->shouldHaveType(FileNameException::class);
+        $this->shouldHaveType(FileAlreadyExistsException::class);
     }
 
     function it_extends_exception()
     {
         $this->shouldHaveType(\Exception::class);
-    }
-
-    function it_constructs_already_exists()
-    {
-        $this::invalidName('dummy-file-name.pdf')->shouldReturnAnInstanceOf(FileNameException::class);
     }
 }

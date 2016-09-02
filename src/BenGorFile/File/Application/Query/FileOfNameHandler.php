@@ -13,7 +13,7 @@
 namespace BenGorFile\File\Application\Query;
 
 use BenGorFile\File\Application\DataTransformer\FileDataTransformer;
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
 
@@ -55,7 +55,7 @@ class FileOfNameHandler
      *
      * @param FileOfNameQuery $aQuery The query
      *
-     * @throws FileException when the file name does not exist
+     * @throws FileDoesNotExistException when the file name does not exist
      *
      * @return mixed
      */
@@ -64,7 +64,7 @@ class FileOfNameHandler
         $fileName = new FileName($aQuery->name());
         $file = $this->repository->fileOfName($fileName);
         if (null === $file) {
-            throw FileException::doesNotExist($fileName);
+            throw new FileDoesNotExistException();
         }
 
         $this->dataTransformer->write($file);

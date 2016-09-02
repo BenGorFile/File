@@ -12,7 +12,7 @@
 
 namespace BenGorFile\File\Application\Command\Rename;
 
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
@@ -56,7 +56,7 @@ class RenameFileHandler
      *
      * @param RenameFileCommand $aCommand The command
      *
-     * @throws FileException when file does not exist
+     * @throws FileDoesNotExistException when file does not exist
      */
     public function __invoke(RenameFileCommand $aCommand)
     {
@@ -65,7 +65,7 @@ class RenameFileHandler
 
         $file = $this->repository->fileOfId($id);
         if (null === $file) {
-            throw FileException::idDoesNotExist($id);
+            throw new FileDoesNotExistException();
         }
         $this->filesystem->rename($file->name(), $name);
         $file->rename($name);

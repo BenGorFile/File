@@ -12,7 +12,7 @@
 
 namespace BenGorFile\File\Application\Command\Overwrite;
 
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
@@ -58,7 +58,7 @@ class OverwriteFileHandler
      *
      * @param OverwriteFileCommand $aCommand The command
      *
-     * @throws FileException when file does not exist
+     * @throws FileDoesNotExistException when file does not exist
      */
     public function __invoke(OverwriteFileCommand $aCommand)
     {
@@ -67,7 +67,7 @@ class OverwriteFileHandler
 
         $file = $this->repository->fileOfId($id);
         if (null === $file) {
-            throw FileException::idDoesNotExist($id);
+            throw new FileDoesNotExistException();
         }
         $this->filesystem->delete($file->name());
         $file->overwrite($name, new FileMimeType($aCommand->mimeType()));

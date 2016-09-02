@@ -13,7 +13,7 @@
 namespace spec\BenGorFile\File\Domain\Model;
 
 use BenGorFile\File\Domain\Model\FileMimeType;
-use BenGorFile\File\Domain\Model\FileMimeTypeException;
+use BenGorFile\File\Domain\Model\FileMimeTypeDoesNotSupportException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -32,7 +32,7 @@ class FileMimeTypeSpec extends ObjectBehavior
     function it_constructs_with_not_supported_mime_type()
     {
         $this->beConstructedWith(null);
-        $this->shouldThrow(FileMimeTypeException::doesNotSupport(null))->duringInstantiation();
+        $this->shouldThrow(FileMimeTypeDoesNotSupportException::class)->duringInstantiation();
     }
 
     function it_constructs_with_valid_mime_type()

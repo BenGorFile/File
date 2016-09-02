@@ -13,7 +13,7 @@
 namespace BenGorFile\File\Application\Query;
 
 use BenGorFile\File\Application\DataTransformer\FileDataTransformer;
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileRepository;
 
@@ -55,7 +55,7 @@ class FileOfIdHandler
      *
      * @param FileOfIdQuery $aQuery The query
      *
-     * @throws FileException when the file id does not exist
+     * @throws FileDoesNotExistException when the file id does not exist
      *
      * @return mixed
      */
@@ -64,7 +64,7 @@ class FileOfIdHandler
         $fileId = new FileId($aQuery->id());
         $file = $this->repository->fileOfId($fileId);
         if (null === $file) {
-            throw FileException::idDoesNotExist($fileId);
+            throw new FileDoesNotExistException();
         }
 
         $this->dataTransformer->write($file);

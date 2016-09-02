@@ -12,7 +12,7 @@
 
 namespace BenGorFile\File\Application\Command\Rename;
 
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 
 /**
  * Rename file command class.
@@ -42,7 +42,7 @@ class RenameFileCommand
      * @param string $aName The file name
      *
      * @throws \InvalidArgumentException when the id or uploaded file given are null
-     * @throws FileNameException         when the name given is null
+     * @throws FileNameInvalidException  when the name given is null
      */
     public function __construct($anId, $aName)
     {
@@ -50,7 +50,7 @@ class RenameFileCommand
             throw new \InvalidArgumentException('The file id cannot be null');
         }
         if (null === $aName) {
-            throw FileNameException::invalidName($aName);
+            throw new FileNameInvalidException();
         }
         $this->id = $anId;
         $this->name = $aName;

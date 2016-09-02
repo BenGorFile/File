@@ -141,12 +141,12 @@ class File extends FileAggregateRoot
      *
      * @param FileName $aName The file name
      *
-     * @throws FileNameException when the file name extension is different of the current
+     * @throws FileNameInvalidException when the file name extension is different of the current
      */
     public function rename(FileName $aName)
     {
         if ($aName->extension() !== $this->name()->extension()) {
-            throw FileNameException::invalidName($aName);
+            throw new FileNameInvalidException();
         }
 
         $this->name = $aName;
@@ -193,12 +193,12 @@ class File extends FileAggregateRoot
      *
      * @param FileMimeType $aMimeType The mime type
      *
-     * @throws FileMimeTypeException when the given mime type is not support for the file
+     * @throws FileMimeTypeDoesNotSupportException when the given mime type is not support for the file
      */
     private function setMimeType(FileMimeType $aMimeType)
     {
         if (!in_array($aMimeType->mimeType(), $this->availableMimeTypes(), true)) {
-            throw FileMimeTypeException::doesNotSupport($aMimeType->mimeType());
+            throw new FileMimeTypeDoesNotSupportException();
         }
         $this->mimeType = $aMimeType;
     }

@@ -13,8 +13,8 @@
 namespace spec\BenGorFile\File\Application\Command\Upload;
 
 use BenGorFile\File\Application\Command\Upload\UploadFileCommand;
-use BenGorFile\File\Domain\Model\FileMimeTypeException;
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileMimeTypeDoesNotSupportException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -45,13 +45,13 @@ class UploadFileCommandSpec extends ObjectBehavior
     {
         $this->beConstructedWith(null, 'pdf-content', 'application/pdf');
 
-        $this->shouldThrow(FileNameException::invalidName(null))->duringInstantiation();
+        $this->shouldThrow(FileNameInvalidException::class)->duringInstantiation();
     }
 
     function it_does_not_create_a_command_when_file_mime_type_is_null()
     {
         $this->beConstructedWith('dummy-file-name.pdf', 'pdf-content', null);
 
-        $this->shouldThrow(FileMimeTypeException::doesNotSupport(null))->duringInstantiation();
+        $this->shouldThrow(FileMimeTypeDoesNotSupportException::class)->duringInstantiation();
     }
 }

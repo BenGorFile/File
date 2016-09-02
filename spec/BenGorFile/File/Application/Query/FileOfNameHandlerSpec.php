@@ -16,7 +16,7 @@ use BenGorFile\File\Application\DataTransformer\FileDataTransformer;
 use BenGorFile\File\Application\Query\FileOfNameHandler;
 use BenGorFile\File\Application\Query\FileOfNameQuery;
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
 use PhpSpec\ObjectBehavior;
@@ -76,6 +76,6 @@ class FileOfNameHandlerSpec extends ObjectBehavior
         $name = new FileName('file.pdf');
         $repository->fileOfName($name)->shouldBeCalled()->willReturn(null);
 
-        $this->shouldThrow(FileException::doesNotExist($name))->during__invoke($query);
+        $this->shouldThrow(FileDoesNotExistException::class)->during__invoke($query);
     }
 }

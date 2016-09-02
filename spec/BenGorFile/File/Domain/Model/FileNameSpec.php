@@ -13,7 +13,7 @@
 namespace spec\BenGorFile\File\Domain\Model;
 
 use BenGorFile\File\Domain\Model\FileName;
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -32,7 +32,7 @@ class FileNameSpec extends ObjectBehavior
     function it_constructs_with_null_name()
     {
         $this->beConstructedWith(null);
-        $this->shouldThrow(FileNameException::invalidName(null))->duringInstantiation();
+        $this->shouldThrow(FileNameInvalidException::class)->duringInstantiation();
     }
 
     function it_constructs_with_string_name()

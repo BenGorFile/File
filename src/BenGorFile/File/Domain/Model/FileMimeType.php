@@ -32,12 +32,12 @@ final class FileMimeType
      *
      * @param string $aMimeType The mime type
      *
-     * @throws FileMimeTypeException when the given mime type is not supported
+     * @throws FileMimeTypeDoesNotSupportException when the given mime type is not supported
      */
     public function __construct($aMimeType)
     {
         if (false === in_array($aMimeType, $this->mimeTypes(), true)) {
-            throw FileMimeTypeException::doesNotSupport($aMimeType);
+            throw new FileMimeTypeDoesNotSupportException();
         }
         $this->mimeType = $aMimeType;
     }

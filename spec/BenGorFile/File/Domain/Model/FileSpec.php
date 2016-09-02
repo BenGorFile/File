@@ -16,7 +16,7 @@ use BenGorFile\File\Domain\Model\File;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileMimeType;
 use BenGorFile\File\Domain\Model\FileName;
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -104,6 +104,6 @@ class FileSpec extends ObjectBehavior
 
         $this->name()->shouldReturn($name);
 
-        $this->shouldThrow(FileNameException::class)->duringRename($name2);
+        $this->shouldThrow(FileNameInvalidException::class)->duringRename($name2);
     }
 }

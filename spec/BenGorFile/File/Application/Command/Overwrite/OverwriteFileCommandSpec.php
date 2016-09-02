@@ -13,8 +13,8 @@
 namespace spec\BenGorFile\File\Application\Command\Overwrite;
 
 use BenGorFile\File\Application\Command\Overwrite\OverwriteFileCommand;
-use BenGorFile\File\Domain\Model\FileMimeTypeException;
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileMimeTypeDoesNotSupportException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -52,13 +52,13 @@ class OverwriteFileCommandSpec extends ObjectBehavior
     {
         $this->beConstructedWith('file-id', null, 'pdf-content', 'application/pdf');
 
-        $this->shouldThrow(FileNameException::invalidName(null))->duringInstantiation();
+        $this->shouldThrow(FileNameInvalidException::class)->duringInstantiation();
     }
 
     function it_does_not_create_a_command_when_file_mime_type_is_null()
     {
         $this->beConstructedWith('file-id', 'dummy-file-name.pdf', 'pdf-content', null);
 
-        $this->shouldThrow(FileMimeTypeException::doesNotSupport(null))->duringInstantiation();
+        $this->shouldThrow(FileMimeTypeDoesNotSupportException::class)->duringInstantiation();
     }
 }

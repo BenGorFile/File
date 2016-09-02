@@ -12,8 +12,8 @@
 
 namespace BenGorFile\File\Application\Command\Overwrite;
 
-use BenGorFile\File\Domain\Model\FileMimeTypeException;
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileMimeTypeDoesNotSupportException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 
 /**
  * Overwrite file command class.
@@ -59,9 +59,9 @@ class OverwriteFileCommand
      * @param mixed  $anUploadedFile The real content of file
      * @param string $aMimeType      The file mime type
      *
-     * @throws \InvalidArgumentException when the id or uploaded file given are null
-     * @throws FileMimeTypeException     when the mime type given is null
-     * @throws FileNameException         when the name given is null
+     * @throws \InvalidArgumentException           when the id or uploaded file given are null
+     * @throws FileNameInvalidException            when the mime type given is null
+     * @throws FileMimeTypeDoesNotSupportException when the name given is null
      */
     public function __construct($anId, $aName, $anUploadedFile, $aMimeType)
     {
@@ -69,13 +69,13 @@ class OverwriteFileCommand
             throw new \InvalidArgumentException('The file id cannot be null');
         }
         if (null === $aName) {
-            throw FileNameException::invalidName($aName);
+            throw new FileNameInvalidException();
         }
         if (null === $anUploadedFile) {
             throw new \InvalidArgumentException('The file content cannot be null');
         }
         if (null === $aMimeType) {
-            throw FileMimeTypeException::doesNotSupport($aMimeType);
+            throw new FileMimeTypeDoesNotSupportException();
         }
         $this->id = $anId;
         $this->name = $aName;

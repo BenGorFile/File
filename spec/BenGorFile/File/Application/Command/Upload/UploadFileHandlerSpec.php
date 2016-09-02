@@ -15,7 +15,7 @@ namespace spec\BenGorFile\File\Application\Command\Upload;
 use BenGorFile\File\Application\Command\Upload\UploadFileCommand;
 use BenGorFile\File\Application\Command\Upload\UploadFileHandler;
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileAlreadyExistsException;
 use BenGorFile\File\Domain\Model\FileFactory;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileMimeType;
@@ -76,7 +76,7 @@ class UploadFileHandlerSpec extends ObjectBehavior
         $id = new FileId('file-id');
         $repository->fileOfId($id)->shouldBeCalled()->willReturn($file);
 
-        $this->shouldThrow(FileException::idAlreadyExists($id))->during__invoke($command);
+        $this->shouldThrow(FileAlreadyExistsException::class)->during__invoke($command);
     }
 
     function it_does_not_handle_because_file_already_exists(
@@ -91,6 +91,6 @@ class UploadFileHandlerSpec extends ObjectBehavior
         $repository->fileOfId($id)->shouldBeCalled()->willReturn(null);
         $filesystem->has($name)->shouldBeCalled()->willReturn(true);
 
-        $this->shouldThrow(FileException::alreadyExists($name))->during__invoke($command);
+        $this->shouldThrow(FileAlreadyExistsException::class)->during__invoke($command);
     }
 }

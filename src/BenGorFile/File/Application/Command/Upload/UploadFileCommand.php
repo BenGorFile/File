@@ -12,8 +12,8 @@
 
 namespace BenGorFile\File\Application\Command\Upload;
 
-use BenGorFile\File\Domain\Model\FileMimeTypeException;
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileMimeTypeDoesNotSupportException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -60,19 +60,19 @@ class UploadFileCommand
      * @param string      $aMimeType      The file mime type
      * @param string|null $anId           The file id
      *
-     * @throws FileMimeTypeException when the mime type given is null
-     * @throws FileNameException     when the name given is null
+     * @throws FileNameInvalidException            when the mime type given is null
+     * @throws FileMimeTypeDoesNotSupportException when the name given is null
      */
     public function __construct($aName, $anUploadedFile, $aMimeType, $anId = null)
     {
         if (null === $aName) {
-            throw FileNameException::invalidName($aName);
+            throw new FileNameInvalidException();
         }
         if (null === $anUploadedFile) {
             throw new \InvalidArgumentException('The file content cannot be null');
         }
         if (null === $aMimeType) {
-            throw FileMimeTypeException::doesNotSupport($aMimeType);
+            throw new FileMimeTypeDoesNotSupportException();
         }
         $this->id = null === $anId ? Uuid::uuid4()->toString() : $anId;
         $this->name = $aName;

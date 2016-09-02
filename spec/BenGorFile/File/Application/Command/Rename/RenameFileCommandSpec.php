@@ -13,7 +13,7 @@
 namespace spec\BenGorFile\File\Application\Command\Rename;
 
 use BenGorFile\File\Application\Command\Rename\RenameFileCommand;
-use BenGorFile\File\Domain\Model\FileNameException;
+use BenGorFile\File\Domain\Model\FileNameInvalidException;
 use PhpSpec\ObjectBehavior;
 
 /**
@@ -42,6 +42,6 @@ class RenameFileCommandSpec extends ObjectBehavior
     {
         $this->beConstructedWith('file-id', null, 'pdf-content', 'application/pdf');
 
-        $this->shouldThrow(FileNameException::invalidName(null))->duringInstantiation();
+        $this->shouldThrow(FileNameInvalidException::class)->duringInstantiation();
     }
 }

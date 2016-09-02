@@ -16,7 +16,7 @@ use BenGorFile\File\Application\DataTransformer\FileDataTransformer;
 use BenGorFile\File\Application\Query\FileOfIdHandler;
 use BenGorFile\File\Application\Query\FileOfIdQuery;
 use BenGorFile\File\Domain\Model\File;
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileRepository;
 use PhpSpec\ObjectBehavior;
@@ -76,6 +76,6 @@ class FileOfIdHandlerSpec extends ObjectBehavior
         $id = new FileId('file-id');
         $repository->fileOfId($id)->shouldBeCalled()->willReturn(null);
 
-        $this->shouldThrow(FileException::idDoesNotExist($id))->during__invoke($query);
+        $this->shouldThrow(FileDoesNotExistException::class)->during__invoke($query);
     }
 }

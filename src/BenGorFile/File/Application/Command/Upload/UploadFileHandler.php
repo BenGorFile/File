@@ -12,7 +12,7 @@
 
 namespace BenGorFile\File\Application\Command\Upload;
 
-use BenGorFile\File\Domain\Model\FileException;
+use BenGorFile\File\Domain\Model\FileAlreadyExistsException;
 use BenGorFile\File\Domain\Model\FileFactory;
 use BenGorFile\File\Domain\Model\FileId;
 use BenGorFile\File\Domain\Model\FileMimeType;
@@ -68,18 +68,18 @@ class UploadFileHandler
      *
      * @param UploadFileCommand $aCommand The command
      *
-     * @throws FileException when file is already exists
+     * @throws FileAlreadyExistsException when file is already exists
      */
     public function __invoke(UploadFileCommand $aCommand)
     {
         $id = new FileId($aCommand->id());
         $file = $this->repository->fileOfId($id);
         if (null !== $file) {
-            throw FileException::idAlreadyExists($id);
+            throw new FileAlreadyExistsException();
         }
         $name = new FileName($aCommand->name());
         if (true === $this->filesystem->has($name)) {
-            throw FileException::alreadyExists($name);
+            throw new FileAlreadyExistsException();
         }
 
         $this->filesystem->write($name, $aCommand->uploadedFile());
