@@ -2,6 +2,9 @@
 
 ##Upload file
 
+###Default
+###ByHash
+
 ##Overwrite file
 
 ##Remove file

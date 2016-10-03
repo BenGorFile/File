@@ -12,6 +12,8 @@ BenGorFile is **lightweight, flexible and easy to use** file management library.
 this library offers a well tested and documented codebase with many common use cases already implemented, such as:
 
  * Upload file
+    * Default
+    * By hash
  * Overwrite file
  * Remove file
  * Rename file

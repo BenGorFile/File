@@ -12,6 +12,8 @@
 
 namespace BenGorFile\File\Domain\Model;
 
+use Ramsey\Uuid\Uuid;
+
 /**
  * File name domain class.
  *
@@ -48,6 +50,21 @@ final class FileName
         }
         $this->name = $this->sanitize(pathinfo($aName, PATHINFO_FILENAME));
         $this->extension = pathinfo($aName, PATHINFO_EXTENSION);
+    }
+
+    /**
+     * Factory method that returns an instance of file name with hash as a name.
+     *
+     * @param string $aName The name
+     *
+     * @return FileName
+     */
+    public static function fromHash($aName)
+    {
+        $instance = new self($aName);
+        $instance->name = Uuid::uuid4()->toString();
+
+        return $instance;
     }
 
     /**
