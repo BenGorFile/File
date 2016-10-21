@@ -66,11 +66,11 @@ class ByHashUploadFileHandler
     /**
      * Handles the given command.
      *
-     * @param UploadFileCommand $aCommand The command
+     * @param ByHashUploadFileCommand $aCommand The command
      *
      * @throws FileAlreadyExistsException when file is already exists
      */
-    public function __invoke(UploadFileCommand $aCommand)
+    public function __invoke(ByHashUploadFileCommand $aCommand)
     {
         $id = new FileId($aCommand->id());
         $file = $this->repository->fileOfId($id);

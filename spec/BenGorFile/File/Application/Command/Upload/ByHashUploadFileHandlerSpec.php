@@ -13,7 +13,7 @@
 namespace spec\BenGorFile\File\Application\Command\Upload;
 
 use BenGorFile\File\Application\Command\Upload\ByHashUploadFileHandler;
-use BenGorFile\File\Application\Command\Upload\UploadFileCommand;
+use BenGorFile\File\Application\Command\Upload\ByHashUploadFileCommand;
 use BenGorFile\File\Domain\Model\File;
 use BenGorFile\File\Domain\Model\FileAlreadyExistsException;
 use BenGorFile\File\Domain\Model\FileFactory;
@@ -44,7 +44,7 @@ class ByHashUploadFileHandlerSpec extends ObjectBehavior
     }
 
     function it_handles(
-        UploadFileCommand $command,
+        ByHashUploadFileCommand $command,
         Filesystem $filesystem,
         FileRepository $repository,
         FileFactory $factory,
@@ -69,7 +69,7 @@ class ByHashUploadFileHandlerSpec extends ObjectBehavior
 
     function it_does_not_handle_because_file_id_already_exists(
         FileRepository $repository,
-        UploadFileCommand $command,
+        ByHashUploadFileCommand $command,
         File $file
     ) {
         $command->id()->shouldBeCalled()->willReturn('file-id');
@@ -82,7 +82,7 @@ class ByHashUploadFileHandlerSpec extends ObjectBehavior
     function it_does_not_handle_because_file_already_exists(
         FileRepository $repository,
         Filesystem $filesystem,
-        UploadFileCommand $command
+        ByHashUploadFileCommand $command
     ) {
         $command->id()->shouldBeCalled()->willReturn('file-id');
         $id = new FileId('file-id');
