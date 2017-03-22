@@ -10,20 +10,20 @@
  * file that was distributed with this source code.
  */
 
-namespace BenGorFile\File\Infrastructure\CommandBus;
+namespace BenGorFile\File\Infrastructure\Application;
 
 /**
- * File command bus class.
+ * File query bus class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
- * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-interface FileCommandBus
+interface FileQueryBus
 {
     /**
-     * Executes the given command.
+     * Executes the given query.
      *
-     * @param mixed $aCommand The command given
+     * @param mixed $query  The query given
+     * @param mixed $result The result reference
      */
-    public function handle($aCommand);
+    public function handle($query, &$result);
 }
