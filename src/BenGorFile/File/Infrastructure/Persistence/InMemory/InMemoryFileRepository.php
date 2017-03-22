@@ -64,6 +64,22 @@ final class InMemoryFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
+    public function query($aSpecification)
+    {
+        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count($aSpecification)
+    {
+        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fileOfName(FileName $aName)
     {
         foreach ($this->files as $file) {

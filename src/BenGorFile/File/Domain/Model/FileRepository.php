@@ -39,6 +39,24 @@ interface FileRepository
     public function fileOfName(FileName $aName);
 
     /**
+     * Finds files that matches with the specification.
+     *
+     * @param mixed $aSpecification The specification
+     *
+     * @return File[]
+     */
+    public function query($aSpecification);
+
+    /**
+     * Counts files that matches with the specification.
+     *
+     * @param mixed $aSpecification The specification
+     *
+     * @return int
+     */
+    public function count($aSpecification);
+
+    /**
      * Gets all files.
      *
      * @return File[]

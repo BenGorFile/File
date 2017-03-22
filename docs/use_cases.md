@@ -1,12 +1,13 @@
-#Use cases
+# Use cases
 
-##Upload file
+## Upload file
 
-###Default
-###ByHash
+### Default
+### ByHash
+### SuffixNumber
 
-##Overwrite file
+## Overwrite file
 
-##Remove file
+## Remove file
 
-##Rename file
+## Rename file

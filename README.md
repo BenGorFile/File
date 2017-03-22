@@ -1,4 +1,4 @@
-#BenGorFile
+# BenGorFile
 > Lightweight file PHP library developed using Domain-Driven Design
 
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/c684216d-c5f3-4b70-a7cf-1ec2af743142/mini.png)](https://insight.sensiolabs.com/projects/c684216d-c5f3-4b70-a7cf-1ec2af743142)
@@ -18,21 +18,21 @@ this library offers a well tested and documented codebase with many common use c
  * Remove file
  * Rename file
 
-##Requirements
+## Requirements
 PHP >= 5.5
 
-##Installation
+## Installation
 The easiest way to install this component is using [Composer][6]
 ```bash
 $ composer require bengor-file/file
 ```
 
-##Documentation
+## Documentation
 All the documentation is stored in the `docs` folder.
 
 [Show me the docs!](docs/index.md)
 
-##Tests
+## Tests
 This library is completely tested by **[PHPSpec][1], SpecBDD framework for PHP**.
 
 Run the following command to launch tests:
@@ -40,7 +40,7 @@ Run the following command to launch tests:
 $ vendor/bin/phpspec run -fpretty
 ```
 
-##Contributing
+## Contributing
 This library follows PHP coding standards, so pull requests need to execute the Fabien Potencier's [PHP-CS-Fixer][5].
 Furthermore, if the PR creates some not-PHP file remember that you have to put the license header manually.
 In order to simplify we provide a Composer script that wraps all the commands related with
@@ -57,13 +57,13 @@ If you would like to contribute it is a good point to follow Symfony contributio
 [Contributing Code][2] in the project documentation. If you are submitting a pull request, please follow the guidelines
 in the [Submitting a Patch][3] section and use the [Pull Request Template][4].
 
-##Credits
+## Credits
 This library is created by:
 >
 **@benatespina** - [benatespina@gmail.com](mailto:benatespina@gmail.com)<br>
 **@gorkalaucirica** - [gorka.lauzirika@gmail.com](mailto:gorka.lauzirika@gmail.com)
 
-##Licensing Options
+## Licensing Options
 [![License](https://poser.pugx.org/bengor-file/file/license.svg)](https://github.com/BenGorFile/File/blob/master/LICENSE)
 
 [1]: http://www.phpspec.net/

@@ -69,6 +69,22 @@ final class SqlFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
+    public function query($aSpecification)
+    {
+        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function count($aSpecification)
+    {
+        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function fileOfName(FileName $aName)
     {
         $statement = $this->execute('SELECT * FROM file WHERE name = :name AND extension = :extension', [
