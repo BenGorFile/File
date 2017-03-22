@@ -16,6 +16,7 @@ use BenGorFile\File\Application\DataTransformer\FileDataTransformer;
 use BenGorFile\File\Domain\Model\FileDoesNotExistException;
 use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
+use BenGorFile\File\Domain\Model\FileSpecificationFactory;
 
 /**
  * File of name query handler.
@@ -32,6 +33,13 @@ class FileOfNameHandler
     private $dataTransformer;
 
     /**
+     * The file specification factory.
+     *
+     * @var FileSpecificationFactory
+     */
+    private $specificationFactory;
+
+    /**
      * The file repository.
      *
      * @var FileRepository
@@ -41,13 +49,18 @@ class FileOfNameHandler
     /**
      * Constructor.
      *
-     * @param FileRepository      $aRepository      The file repository
-     * @param FileDataTransformer $aDataTransformer The file data transformer
+     * @param FileRepository           $aRepository           The file repository
+     * @param FileSpecificationFactory $aSpecificationFactory The file specification factory
+     * @param FileDataTransformer      $aDataTransformer      The file data transformer
      */
-    public function __construct(FileRepository $aRepository, FileDataTransformer $aDataTransformer)
-    {
+    public function __construct(
+        FileRepository $aRepository,
+        FileSpecificationFactory $specificationFactory,
+        FileDataTransformer $aDataTransformer
+    ) {
         $this->repository = $aRepository;
         $this->dataTransformer = $aDataTransformer;
+        $this->specificationFactory = $specificationFactory;
     }
 
     /**
@@ -62,7 +75,11 @@ class FileOfNameHandler
     public function __invoke(FileOfNameQuery $aQuery)
     {
         $fileName = new FileName($aQuery->name());
-        $file = $this->repository->fileOfName($fileName);
+        $file = $this->repository->singleResultQuery(
+            $this->specificationFactory->buildByNameSpecification(
+                $fileName
+            )
+        );
         if (null === $file) {
             throw new FileDoesNotExistException();
         }

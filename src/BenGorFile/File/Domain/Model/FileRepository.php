@@ -30,15 +30,6 @@ interface FileRepository
     public function fileOfId(FileId $anId);
 
     /**
-     * Finds the file of given name.
-     *
-     * @param FileName $aName The file name
-     *
-     * @return File
-     */
-    public function fileOfName(FileName $aName);
-
-    /**
      * Finds files that matches with the specification.
      *
      * @param mixed $aSpecification The specification
@@ -46,6 +37,15 @@ interface FileRepository
      * @return File[]
      */
     public function query($aSpecification);
+
+    /**
+     * Finds file that matches with the specification.
+     *
+     * @param mixed $aSpecification The specification
+     *
+     * @return File
+     */
+    public function singleResultQuery($aSpecification);
 
     /**
      * Counts files that matches with the specification.

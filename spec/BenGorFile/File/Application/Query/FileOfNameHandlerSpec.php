@@ -17,9 +17,10 @@ use BenGorFile\File\Application\Query\FileOfNameHandler;
 use BenGorFile\File\Application\Query\FileOfNameQuery;
 use BenGorFile\File\Domain\Model\File;
 use BenGorFile\File\Domain\Model\FileDoesNotExistException;
-use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileRepository;
+use BenGorFile\File\Domain\Model\FileSpecificationFactory;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 /**
  * Spec file of FileOfNameHandler class.
@@ -28,9 +29,12 @@ use PhpSpec\ObjectBehavior;
  */
 class FileOfNameHandlerSpec extends ObjectBehavior
 {
-    function let(FileRepository $repository, FileDataTransformer $dataTransformer)
-    {
-        $this->beConstructedWith($repository, $dataTransformer);
+    function let(
+        FileRepository $repository,
+        FileSpecificationFactory $specificationFactory,
+        FileDataTransformer $dataTransformer
+    ) {
+        $this->beConstructedWith($repository, $specificationFactory, $dataTransformer);
     }
 
     function it_is_initializable()
@@ -47,8 +51,7 @@ class FileOfNameHandlerSpec extends ObjectBehavior
         \DateTimeImmutable $updatedOn
     ) {
         $query->name()->shouldBeCalled()->willReturn('file.pdf');
-        $name = new FileName('file.pdf');
-        $repository->fileOfName($name)->shouldBeCalled()->willReturn($file);
+        $repository->singleResultQuery(Argument::any())->shouldBeCalled()->willReturn($file);
         $dataTransformer->write($file)->shouldBeCalled();
 
         $dataTransformer->read()->shouldBeCalled()->willReturn([
@@ -73,8 +76,7 @@ class FileOfNameHandlerSpec extends ObjectBehavior
         FileOfNameQuery $query
     ) {
         $query->name()->shouldBeCalled()->willReturn('file.pdf');
-        $name = new FileName('file.pdf');
-        $repository->fileOfName($name)->shouldBeCalled()->willReturn(null);
+        $repository->singleResultQuery(Argument::any())->shouldBeCalled()->willReturn(null);
 
         $this->shouldThrow(FileDoesNotExistException::class)->during__invoke($query);
     }
