@@ -74,7 +74,7 @@ final class InMemoryFileRepository implements FileRepository
      */
     public function count($aSpecification)
     {
-        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+        return count($this->files);
     }
 
     /**
@@ -119,13 +119,5 @@ final class InMemoryFileRepository implements FileRepository
         if ($this->eventBus instanceof FileEventBus) {
             $this->handle($aFile->events());
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function size()
-    {
-        return count($this->files);
     }
 }

@@ -76,11 +76,4 @@ interface FileRepository
      * @param File $aFile The file
      */
     public function remove(File $aFile);
-
-    /**
-     * Counts the files.
-     *
-     * @return int
-     */
-    public function size();
 }
