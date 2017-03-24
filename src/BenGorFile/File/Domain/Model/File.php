@@ -183,7 +183,7 @@ class File extends FileAggregateRoot
      *
      * @return array
      */
-    protected function availableMimeTypes()
+    public static function availableMimeTypes()
     {
         return FileMimeType::mimeTypes();
     }
