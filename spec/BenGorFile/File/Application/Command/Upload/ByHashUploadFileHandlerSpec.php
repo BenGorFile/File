@@ -12,8 +12,8 @@
 
 namespace spec\BenGorFile\File\Application\Command\Upload;
 
-use BenGorFile\File\Application\Command\Upload\ByHashUploadFileHandler;
 use BenGorFile\File\Application\Command\Upload\ByHashUploadFileCommand;
+use BenGorFile\File\Application\Command\Upload\ByHashUploadFileHandler;
 use BenGorFile\File\Domain\Model\File;
 use BenGorFile\File\Domain\Model\FileAlreadyExistsException;
 use BenGorFile\File\Domain\Model\FileFactory;

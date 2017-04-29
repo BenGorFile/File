@@ -13,38 +13,43 @@
 namespace spec\BenGorFile\File\Application\Query;
 
 use BenGorFile\File\Application\DataTransformer\FileDataTransformer;
-use BenGorFile\File\Application\Query\AllFilesHandler;
-use BenGorFile\File\Application\Query\AllFilesQuery;
+use BenGorFile\File\Application\Query\FilterFilesHandler;
+use BenGorFile\File\Application\Query\FilterFilesQuery;
 use BenGorFile\File\Domain\Model\File;
 use BenGorFile\File\Domain\Model\FileRepository;
+use BenGorFile\File\Domain\Model\FileSpecificationFactory;
 use PhpSpec\ObjectBehavior;
+use Prophecy\Argument;
 
 /**
- * Spec file of AllFilesHandler class.
+ * Spec file of FilterFilesHandler class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-class AllFilesHandlerSpec extends ObjectBehavior
+class FilterFilesHandlerSpec extends ObjectBehavior
 {
-    function let(FileRepository $repository, FileDataTransformer $dataTransformer)
-    {
-        $this->beConstructedWith($repository, $dataTransformer);
+    function let(
+        FileRepository $repository,
+        FileSpecificationFactory $specificationFactory,
+        FileDataTransformer $dataTransformer
+    ) {
+        $this->beConstructedWith($repository, $specificationFactory, $dataTransformer);
     }
 
     function it_is_initializable()
     {
-        $this->shouldHaveType(AllFilesHandler::class);
+        $this->shouldHaveType(FilterFilesHandler::class);
     }
 
-    function it_gets_files_when_the_list_has_one_file(
-        AllFilesQuery $query,
+    function it_filters_files_when_the_list_has_one_file(
+        FilterFilesQuery $query,
         FileRepository $repository,
         File $file,
         FileDataTransformer $dataTransformer,
         \DateTimeImmutable $createdOn,
         \DateTimeImmutable $updatedOn
     ) {
-        $repository->all()->shouldBeCalled()->willReturn([$file]);
+        $repository->query(Argument::any())->shouldBeCalled()->willReturn([$file]);
         $dataTransformer->write($file)->shouldBeCalled();
 
         $dataTransformer->read()->shouldBeCalled()->willReturn([
@@ -64,9 +69,9 @@ class AllFilesHandlerSpec extends ObjectBehavior
         ]]);
     }
 
-    function it_gets_files_when_the_list_is_empty(AllFilesQuery $query, FileRepository $repository)
+    function it_filters_files_when_the_list_is_empty(FilterFilesQuery $query, FileRepository $repository)
     {
-        $repository->all()->shouldBeCalled()->willReturn([]);
+        $repository->query(Argument::any())->shouldBeCalled()->willReturn([]);
 
         $this->__invoke($query)->shouldReturn([]);
     }

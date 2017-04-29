@@ -12,18 +12,22 @@
 
 namespace spec\BenGorFile\File\Application\Query;
 
-use BenGorFile\File\Application\Query\AllFilesQuery;
+use BenGorFile\File\Application\Query\FilterFilesQuery;
 use PhpSpec\ObjectBehavior;
 
 /**
- * Spec file of AllFilesQuery class.
+ * Spec file of FilterFilesQuery class.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-class AllFilesQuerySpec extends ObjectBehavior
+class FilterFilesQuerySpec extends ObjectBehavior
 {
     function it_creates_a_query()
     {
-        $this->shouldHaveType(AllFilesQuery::class);
+        $this->beConstructedWith('filena');
+        $this->shouldHaveType(FilterFilesQuery::class);
+        $this->query()->shouldReturn('filena');
+        $this->page()->shouldReturn(0);
+        $this->limit()->shouldReturn(-1);
     }
 }

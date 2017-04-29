@@ -14,7 +14,7 @@ namespace BenGorFile\File\Domain\Model;
 
 interface FileSpecificationFactory
 {
-    public function buildFilterByNameSpecification(FileName $fileName);
+    public function buildFilterByNameSpecification($fileName, $offset = 0, $limit = -1);
 
     public function buildByNameSpecification(FileName $aName);
 }

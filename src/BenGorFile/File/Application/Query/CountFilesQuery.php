@@ -13,10 +13,21 @@
 namespace BenGorFile\File\Application\Query;
 
 /**
- * All files query.
+ * Counts files with the given query.
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  */
-class AllFilesQuery
+class CountFilesQuery
 {
+    private $query;
+
+    public function __construct($query)
+    {
+        $this->query = $query;
+    }
+
+    public function query()
+    {
+        return $this->query;
+    }
 }
