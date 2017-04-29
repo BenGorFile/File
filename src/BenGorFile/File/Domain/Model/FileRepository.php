@@ -57,13 +57,6 @@ interface FileRepository
     public function count($aSpecification);
 
     /**
-     * Gets all files.
-     *
-     * @return File[]
-     */
-    public function all();
-
-    /**
      * Persists the given file.
      *
      * @param File $aFile The file
