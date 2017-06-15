@@ -20,7 +20,7 @@ use Ramsey\Uuid\Uuid;
  * @author Beñat Espiña <benatespina@gmail.com>
  * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
  */
-final class FileId
+class FileId
 {
     /**
      * The id in a primitive type.
