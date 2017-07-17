@@ -498,6 +498,7 @@ final class FileMimeType
             'application/x-mpegURL',
             'audio/mp4',
             'application/mp4',
+            'video/mp4',
             'video/vnd.mpegurl',
             'video/x-m4v',
             'application/mathematica',
