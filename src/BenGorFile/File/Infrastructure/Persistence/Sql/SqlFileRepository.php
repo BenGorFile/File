@@ -77,6 +77,14 @@ final class SqlFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
+    public function singleResultQuery($aSpecification)
+    {
+        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function count($aSpecification)
     {
         return $this->pdo->query('SELECT COUNT(*) FROM file')->fetchColumn();
