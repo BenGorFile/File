@@ -24,6 +24,7 @@ use BenGorFile\File\Infrastructure\Domain\Model\FileEventBus;
  *
  * @author Beñat Espiña <benatespina@gmail.com>
  * @author Gorka Laucirica <gorka.lauzirika@gmail.com>
+ * @author Mikel Etxebarria <mikeletxe4594@gmail.com>
  */
 final class SqlFileRepository implements FileRepository
 {

@@ -12,6 +12,9 @@
 
 namespace BenGorFile\File\Infrastructure\Persistence\Sql;
 
+/**
+ * @author Mikel Etxebarria <mikeletxe4594@gmail.com>
+ */
 interface SqlQuerySpecification
 {
     public function buildQuery();

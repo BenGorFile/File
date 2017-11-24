@@ -15,7 +15,7 @@ namespace BenGorFile\File\Infrastructure\Persistence\Sql;
 use BenGorFile\File\Domain\Model\FileName;
 
 /**
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Etxebarria <mikeletxe4594@gmail.com>
  */
 class SqlByNameSpecification implements SqlQuerySpecification
 {

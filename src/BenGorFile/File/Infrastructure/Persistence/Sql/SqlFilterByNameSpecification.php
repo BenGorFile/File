@@ -13,7 +13,7 @@
 namespace BenGorFile\File\Infrastructure\Persistence\Sql;
 
 /**
- * @author Beñat Espiña <benatespina@gmail.com>
+ * @author Mikel Etxebarria <mikeletxe4594@gmail.com>
  */
 class SqlFilterByNameSpecification implements SqlQuerySpecification, SqlCountSpecification
 {

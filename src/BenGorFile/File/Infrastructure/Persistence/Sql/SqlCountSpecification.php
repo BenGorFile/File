@@ -12,6 +12,9 @@
 
 namespace BenGorFile\File\Infrastructure\Persistence\Sql;
 
+/**
+ * @author Mikel Etxebarria <mikeletxe4594@gmail.com>
+ */
 interface SqlCountSpecification
 {
     public function buildCount();
