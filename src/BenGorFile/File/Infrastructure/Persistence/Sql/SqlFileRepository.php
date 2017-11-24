@@ -71,7 +71,24 @@ final class SqlFileRepository implements FileRepository
      */
     public function query($aSpecification)
     {
-        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+        $query = $aSpecification->buildQuery();
+        $preparedStatement = $this->pdo->prepare($query[0]);
+        foreach ($query[1] as $param => $value) {
+            if (is_int($value)) {
+                $preparedStatement->bindValue($param, $value, \PDO::PARAM_INT);
+            } else {
+                $preparedStatement->bindValue($param, $value, \PDO::PARAM_STR);
+            }
+        }
+        $preparedStatement->execute();
+        $rows = $preparedStatement->fetchAll();
+        if ($rows === null) {
+            return [];
+        }
+
+        return array_map(function ($row) {
+            return $this->buildFile($row);
+        }, $rows);
     }
 
     /**
@@ -79,7 +96,22 @@ final class SqlFileRepository implements FileRepository
      */
     public function singleResultQuery($aSpecification)
     {
-        throw new \LogicException('This method is not implemented yet, maybe you can propose a PR :)');
+        $query = $aSpecification->buildQuery();
+        $preparedStatement = $this->pdo->prepare($query[0]);
+        foreach ($query[1] as $param => $value) {
+            if (is_int($value)) {
+                $preparedStatement->bindValue($param, $value, \PDO::PARAM_INT);
+            } else {
+                $preparedStatement->bindValue($param, $value, \PDO::PARAM_STR);
+            }
+        }
+        $preparedStatement->execute();
+        $row = $preparedStatement->fetch();
+        if ($row === null) {
+            return [];
+        }
+
+        return $this->buildFile($row);
     }
 
     /**
