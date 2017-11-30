@@ -17,6 +17,7 @@ use BenGorFile\File\Domain\Model\FileSpecificationFactory;
 
 /**
  * @author Mikel Etxebarria <mikeletxe4594@gmail.com>
+ * @author Beñat Espiña <benatespina@gmail.com>
  */
 class SqlFileSpecificationFactory implements FileSpecificationFactory
 {
@@ -28,5 +29,10 @@ class SqlFileSpecificationFactory implements FileSpecificationFactory
     public function buildByNameSpecification(FileName $fileName)
     {
         return new SqlByNameSpecification($fileName);
+    }
+
+    public function buildListOfIdsSpecification(array $ids, $offset = 0, $limit = -1)
+    {
+        return new SqlListOfIdsSpecification($ids, $offset, $limit);
     }
 }
