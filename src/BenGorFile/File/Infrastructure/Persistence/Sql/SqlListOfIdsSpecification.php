@@ -49,7 +49,8 @@ class SqlListOfIdsSpecification implements SqlQuerySpecification, SqlCountSpecif
 
     private function buildWhere()
     {
-        $whereClause = !empty($this->ids) ? 'WHERE f.id IN (:ids) ' : '';
+        $inString = $this->generateInString($this->ids);
+        $whereClause = !empty($this->ids) ? 'WHERE f.id IN (' . $inString . ') ' : '';
 
         return $whereClause;
     }
@@ -64,8 +65,8 @@ class SqlListOfIdsSpecification implements SqlQuerySpecification, SqlCountSpecif
     private function buildParameters()
     {
         $parameters = [];
-        if (!empty($this->name)) {
-            $parameters = array_merge([':ids' => implode(',', $this->ids)], $parameters);
+        if (!empty($this->ids)) {
+            $parameters = array_merge($this->generateInParameters($this->ids), $parameters);
         }
 
         if ($this->limit > 0) {
@@ -73,5 +74,25 @@ class SqlListOfIdsSpecification implements SqlQuerySpecification, SqlCountSpecif
         }
 
         return $parameters;
+    }
+
+    private function generateInString(array $ids)
+    {
+        $in = '';
+        foreach ($ids as $i => $item) {
+            $in .= ":id$i,";
+        }
+
+        return rtrim($in, ',');
+    }
+
+    private function generateInParameters(array $ids)
+    {
+        $productVariantIdParams = [];
+        foreach ($ids as $i => $item) {
+            $productVariantIdParams[":id$i"] = $item;
+        }
+
+        return $productVariantIdParams;
     }
 }
