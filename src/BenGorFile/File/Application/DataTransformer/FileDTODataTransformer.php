@@ -53,6 +53,8 @@ class FileDTODataTransformer implements FileDataTransformer
             'created_on' => $this->file->createdOn(),
             'mime_type'  => $this->file->mimeType()->mimeType(),
             'file_name'  => $this->file->name()->filename(),
+            'name'       => $this->file->name()->name(),
+            'extension'  => $this->file->name()->extension(),
             'updated_on' => $this->file->updatedOn(),
         ];
     }

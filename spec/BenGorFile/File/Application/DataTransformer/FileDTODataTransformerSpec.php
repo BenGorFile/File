@@ -64,6 +64,8 @@ class FileDTODataTransformerSpec extends ObjectBehavior
             'created_on' => $createdOn,
             'mime_type'  => 'image/jpeg',
             'file_name'  => 'image.jpeg',
+            'name'       => 'image',
+            'extension'  => 'jpeg',
             'updated_on' => $updatedOn,
         ]);
     }
