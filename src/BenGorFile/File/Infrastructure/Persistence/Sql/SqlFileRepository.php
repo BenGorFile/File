@@ -118,7 +118,7 @@ final class SqlFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
-    public function count($aSpecification)
+    public function length($aSpecification)
     {
         return $this->pdo->query('SELECT COUNT(*) FROM file')->fetchColumn();
     }

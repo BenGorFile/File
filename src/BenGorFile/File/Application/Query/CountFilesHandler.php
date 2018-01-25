@@ -57,7 +57,7 @@ class CountFilesHandler
      */
     public function __invoke(CountFilesQuery $aQuery)
     {
-        return $this->repository->count(
+        return $this->repository->length(
             $this->specificationFactory->buildFilterByNameSpecification(
                 $aQuery->query()
             )

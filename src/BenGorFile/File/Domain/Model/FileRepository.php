@@ -54,7 +54,7 @@ interface FileRepository
      *
      * @return int
      */
-    public function count($aSpecification);
+    public function length($aSpecification);
 
     /**
      * Persists the given file.

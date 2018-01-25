@@ -114,7 +114,7 @@ class SuffixNumberUploadFileHandler
         $name = $fileName->name();
         $extension = $fileName->extension();
 
-        $numberOfFiles = $this->repository->count(
+        $numberOfFiles = $this->repository->length(
             $this->specificationFactory->buildFilterByNameSpecification($fileName->name())
         );
 

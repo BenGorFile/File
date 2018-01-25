@@ -74,7 +74,7 @@ class SuffixNumberUploadFileHandlerSpec extends ObjectBehavior
         File $file
     ) {
         $repository->fileOfId($this->id)->shouldBeCalled()->willReturn(null);
-        $repository->count(Argument::any())->shouldBeCalled()->willReturn(0);
+        $repository->length(Argument::any())->shouldBeCalled()->willReturn(0);
         $filesystem->write($this->name, $this->uploadedFile)->shouldBeCalled();
         $factory->build($this->id, $this->name, $this->mimeType)->shouldBeCalled()->willReturn($file);
         $repository->persist($file)->shouldBeCalled();
@@ -90,7 +90,7 @@ class SuffixNumberUploadFileHandlerSpec extends ObjectBehavior
         File $file
     ) {
         $repository->fileOfId($this->id)->shouldBeCalled()->willReturn(null);
-        $repository->count(Argument::any())->shouldBeCalled()->willReturn(2);
+        $repository->length(Argument::any())->shouldBeCalled()->willReturn(2);
         $filesystem->write('dummy-file-name-3.pdf', $this->uploadedFile)->shouldBeCalled();
         $factory->build($this->id, 'dummy-file-name-3.pdf', $this->mimeType)->shouldBeCalled()->willReturn($file);
         $repository->persist($file)->shouldBeCalled();

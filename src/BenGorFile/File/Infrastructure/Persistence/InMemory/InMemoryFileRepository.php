@@ -80,7 +80,7 @@ final class InMemoryFileRepository implements FileRepository
     /**
      * {@inheritdoc}
      */
-    public function count($aSpecification)
+    public function length($aSpecification)
     {
         return count($this->files);
     }
