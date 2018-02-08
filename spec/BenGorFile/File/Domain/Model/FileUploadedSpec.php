@@ -14,6 +14,7 @@ namespace spec\BenGorFile\File\Domain\Model;
 
 use BenGorFile\File\Domain\Model\FileEvent;
 use BenGorFile\File\Domain\Model\FileId;
+use BenGorFile\File\Domain\Model\FileName;
 use BenGorFile\File\Domain\Model\FileUploaded;
 use PhpSpec\ObjectBehavior;
 
@@ -27,7 +28,7 @@ class FileUploadedSpec extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith(new FileId('file-id'));
+        $this->beConstructedWith(new FileId('file-id'), new FileName('test.jpg'));
     }
 
     function it_is_initializable()
@@ -43,6 +44,11 @@ class FileUploadedSpec extends ObjectBehavior
     function it_returns_file_id()
     {
         $this->id()->shouldReturnAnInstanceOf(FileId::class);
+    }
+
+    function it_returns_file_name()
+    {
+        $this->name()->shouldReturnAnInstanceOf(FileName::class);
     }
 
     function it_returns_occurred_on()

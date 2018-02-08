@@ -28,6 +28,13 @@ class FileUploaded implements FileEvent
     private $id;
 
     /**
+     * The file name.
+     *
+     * @var FileName
+     */
+    private $name;
+
+    /**
      * The occurred on.
      *
      * @var \DateTimeImmutable
@@ -37,11 +44,13 @@ class FileUploaded implements FileEvent
     /**
      * Constructor.
      *
-     * @param FileId $aFileId The file id
+     * @param FileId   $aFileId The file id
+     * @param FileName $aName   The file name
      */
-    public function __construct(FileId $aFileId)
+    public function __construct(FileId $aFileId, FileName $aName)
     {
         $this->id = $aFileId;
+        $this->name = $aName;
         $this->occurredOn = new \DateTimeImmutable();
     }
 
@@ -53,6 +62,16 @@ class FileUploaded implements FileEvent
     public function id()
     {
         return $this->id;
+    }
+
+    /**
+     * Gets the file name.
+     *
+     * @return FileName
+     */
+    public function name()
+    {
+        return $this->name;
     }
 
     /**

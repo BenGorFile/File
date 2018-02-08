@@ -70,7 +70,7 @@ class File extends FileAggregateRoot
         $this->updatedOn = new \DateTimeImmutable();
         $this->setMimeType($aMimeType);
 
-        $this->publish(new FileUploaded($this->id()));
+        $this->publish(new FileUploaded($this->id(), new FileName($aName)));
     }
 
     /**
